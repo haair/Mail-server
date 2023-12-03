@@ -2,24 +2,16 @@
 using System.Data.SqlClient;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 
 namespace Server_Form
 {
     public class HServer
     {
-        public class ClientInfo
-        {
-            public TcpClient Client { get; set; }
-            public string Username { get; set; }
-        }
-
         private static readonly int PORT = 7749;
         private static TcpListener? listener;
-        private static IPAddress ip = IPAddress.Parse("127.0.0.1");
-        private static List<ClientInfo>? clients;
-        public static Form1? form;
-        private static readonly string connectionString = "Data Source=HAAIR;Initial Catalog=mail_server;User ID=haair;Password=54321";
+        private static readonly IPAddress ip = IPAddress.Parse("127.0.0.1");
+        public static MainForm? form;
+        private static readonly string connectionString = "Data Source=HAAIR;Initial Catalog=mail_server;User ID=haair;Password=12345";
 
         public static void Start()
         {
@@ -28,7 +20,6 @@ namespace Server_Form
                 try
                 {
                     listener = new TcpListener(ip, PORT);
-                    clients = new List<ClientInfo>();
                     listener.Start();
 
                     while (true)
@@ -56,56 +47,211 @@ namespace Server_Form
         private static void HandleClient(TcpClient client)
         {
             NetworkStream stream = client.GetStream();
-            BinaryWriter writer = new BinaryWriter(client.GetStream());
-            string username = GetUsername(stream);
-
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-
-            ClientInfo clientInfo = new ClientInfo { Client = client, Username = username };
-            clients.Add(clientInfo);
-            form.AddMessage(username + " đã đăng nhập");
-            SendList(writer, username);
+            BinaryWriter writer = new(stream);
+            BinaryReader read = new(stream);
 
             try
             {
                 while (true)
                 {
-                    bytesRead = stream.Read(buffer, 0, buffer.Length);
-                    string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                    string come = read.ReadString();
+                    HMessage? mess = JsonConvert.DeserializeObject<HMessage>(come);
+                    switch (mess?.id)
+                    {
+                        case 0:
+                            form?.AddMessage("Have connect");
+                            break;
+                        case 1:
+                            string username = mess.listString[0];
+                            if (CheckAccount(mess.ReadString(), mess.ReadString()))
+                            {
+                                var arr = GetInfoByUsername(username);
+                                HInfo info = new HInfo(arr[0], arr[1], int.Parse(arr[2]));
+                                HMessage? message = new()
+                                {
+                                    id = 1,
+                                    info = info
+                                };
+                                SendMessage(message, writer);
+                                form?.AddMessage(mess.listString[0] + " login successful!");
+                            }
+                            else
+                            {
+                                form?.AddMessage(mess.listString[0] + " login unsuccessful!");
+                            }
+                            break;
+                        case 2:
+                            var lMail = GetListMessageByMailboxID(mess.ReadInt());
+                            HMessage? sms = new()
+                            {
+                                id = 2,
+                                listMail = lMail
+                            };
+                            SendMessage(sms, writer);
+                            break;
+                        case 3:
+                            HMessage? sms1 = new()
+                            {
+                                id = 3,
+                            };
+                            sms1.WriteString("Hello world");
+                            SendMessage(sms1, writer);
+                            break;
+                        case 4:
+                            HEmail? email = mess.listMail.First();
+                            string address = email.recipient;
+                            int rs = CheckEmailAddress(address);
+                            if (rs != -1)
+                            {
+                                AddEMail(email);
+                                email.mailboxId = rs;
+                                AddEMail(email);
+                                HMessage hMessage1 = new() { id = 4, };
+                                SendMessage(hMessage1, writer);
+                                form?.AddMessage("add ok");
+                                break;
+                            }
+                            HMessage hMessage = new() { id = -4, };
+                            SendMessage(hMessage, writer);
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                clients.Remove(clientInfo);
+                //clients.Remove(clientInfo);
                 stream.Close();
                 client.Close();
+                form?.AddMessage("Client disconnect!");
             }
         }
 
-        private static string GetUsername(NetworkStream stream)
+        private static bool CheckAccount(string username, string password)
         {
-            byte[] buffer = new byte[1024];
-            int bytesRead = stream.Read(buffer, 0, buffer.Length);
-            string username = Encoding.UTF8.GetString(buffer, 0, bytesRead).Trim();
-            return username;
+            try
+            {
+                SqlConnection cnn;
+
+                cnn = new SqlConnection(connectionString);
+                cnn.Open();
+
+                SqlCommand sqlCommand;
+                SqlDataReader reader;
+
+                string sqlstr = $"SELECT * FROM MailUser WHERE username = '{username}' AND password = '{password}'";
+
+                sqlCommand = new SqlCommand(sqlstr, cnn);
+                reader = sqlCommand.ExecuteReader();
+                bool flag = reader.Read();
+
+                if (flag)
+                {
+                    cnn.Close();
+                    return true;
+                }
+                cnn.Close();
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
         }
 
-        private static List<MailMessage> GetListMessageByUsername(String username)
+        private static int CheckEmailAddress(string address)
+        {
+            SqlConnection cnn;
+
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+
+            SqlCommand sqlCommand;
+            SqlDataReader reader;
+
+            string sqlstr = $"SELECT b.mailBoxID FROM MailUser u INNER JOIN MailBox b ON u.userID = b.userID WHERE emailAddress = '{address}'";
+
+            sqlCommand = new SqlCommand(sqlstr, cnn);
+            reader = sqlCommand.ExecuteReader();
+            bool flag = reader.Read();
+
+            if (flag)
+            {
+                return reader.GetInt32(0);
+            }
+            cnn.Close();
+            return -1;
+        }
+
+        private static void AddEMail(HEmail hEmail)
+        {
+            try
+            {
+                SqlConnection cnn;
+
+                cnn = new SqlConnection(connectionString);
+                cnn.Open();
+
+                SqlCommand sqlCommand;
+
+                string sqlstr = $"INSERT INTO MailMessage (mailboxID, sender, recipient, subject, body, timestamp, status) VALUES ({hEmail.mailboxId}, '{hEmail.sender}', '{hEmail.recipient}', '{hEmail.subject}', '{hEmail.body}', {hEmail.timestamp}, 0)";
+
+                sqlCommand = new SqlCommand(sqlstr, cnn);
+                int rs = sqlCommand.ExecuteNonQuery();
+                if (rs > 0)
+                {
+                    //form?.AddMessage("Insert +1");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private static string[] GetInfoByUsername(string username)
+        {
+            SqlConnection cnn;
+
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+
+            SqlCommand sqlCommand;
+            SqlDataReader reader;
+            string[] arr = new string[3];
+
+            string sqlstr = $"SELECT u.username, u.emailAddress, b.mailboxID FROM MailUser u INNER JOIN Mailbox b ON b.userID = u.userID WHERE u.username = '{username}'";
+
+            sqlCommand = new SqlCommand(sqlstr, cnn);
+            reader = sqlCommand.ExecuteReader();
+            bool flag = reader.Read();
+
+            if (flag)
+            {
+                arr[0] = reader.GetString(0);
+                arr[1] = reader.GetString(1);
+                arr[2] = reader.GetInt32(2).ToString();
+            }
+            cnn.Close();
+            return arr;
+        }
+
+        private static List<HEmail> GetListMessageByMailboxID(int mailboxID)
         {
             SqlConnection connection = new(connectionString);
             connection.Open();
-            string sql = $"SELECT m.messageID, m.mailboxID, m.sender, m.recipient, m.subject, m.body, m.timestamp, m.status FROM MailUser u INNER JOIN Mailbox b ON u.userID = b.userID INNER JOIN MailMessage m ON b.mailboxID = m.mailboxID WHERE b.mailboxID = 11";
+            string sql = $"SELECT * FROM MailMessage WHERE mailboxID = {mailboxID} ORDER BY timestamp DESC";
             SqlCommand command = new(sql, connection);
             SqlDataReader reader = command.ExecuteReader();
-            List<MailMessage> messages = new List<MailMessage>();
+            List<HEmail> lMail = new();
+
             while (reader.Read())
             {
-                MailMessage message = new()
+                HEmail message = new()
                 {
-                    messageID = reader.GetInt32(0),
-                    mailboxID = reader.GetInt32(1),
+                    messagesId = reader.GetInt32(0),
+                    mailboxId = reader.GetInt32(1),
                     sender = reader.GetString(2),
                     recipient = reader.GetString(3),
                     subject = reader.GetString(4),
@@ -113,16 +259,16 @@ namespace Server_Form
                     timestamp = reader.GetInt32(6),
                     status = reader.GetInt32(7)
                 };
-                messages.Add(message);
+                lMail.Add(message);
             }
             connection.Close();
-            return messages;
+            return lMail;
         }
 
-        private static void SendList(BinaryWriter stream, string username)
+        public static void SendMessage(HMessage message, BinaryWriter binaryWriter)
         {
-            string json = JsonConvert.SerializeObject(GetListMessageByUsername(username));
-            stream.Write(json);
+            string str = JsonConvert.SerializeObject(message);
+            binaryWriter?.Write(str);
         }
     }
 }

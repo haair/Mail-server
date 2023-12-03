@@ -11,7 +11,7 @@ namespace Server_Form
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Form1 f1 = new();
+            MainForm f1 = new();
             HServer.form = f1;
             Application.Run(f1);
         }

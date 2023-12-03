@@ -23,3 +23,29 @@ C:\Users\HAAIR\Documents\I_2023-2024\Network Programing (5)\Lab\Server Form\obj\
 C:\Users\HAAIR\Documents\I_2023-2024\Network Programing (5)\Lab\Server Form\obj\Debug\net6.0-windows\Server Form.genruntimeconfig.cache
 C:\Users\HAAIR\Documents\I_2023-2024\Network Programing (5)\Lab\Server Form\obj\Debug\net6.0-windows\ref\Server Form.dll
 C:\Users\HAAIR\Documents\I_2023-2024\Network Programing (5)\Lab\Server Form\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\bin\Debug\net6.0-windows\Server Form.exe
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\bin\Debug\net6.0-windows\Server Form.deps.json
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\bin\Debug\net6.0-windows\Server Form.runtimeconfig.json
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\bin\Debug\net6.0-windows\Server Form.dll
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\bin\Debug\net6.0-windows\Server Form.pdb
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\bin\Debug\net6.0-windows\System.Data.SqlClient.dll
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\bin\Debug\net6.0-windows\runtimes\win-arm64\native\sni.dll
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\bin\Debug\net6.0-windows\runtimes\win-x64\native\sni.dll
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\bin\Debug\net6.0-windows\runtimes\win-x86\native\sni.dll
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\bin\Debug\net6.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\bin\Debug\net6.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\Server Form.csproj.AssemblyReference.cache
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\Server_Form.MainForm.resources
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\Server Form.csproj.GenerateResource.cache
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\Server Form.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\Server Form.AssemblyInfoInputs.cache
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\Server Form.AssemblyInfo.cs
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\Server Form.csproj.CoreCompileInputs.cache
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\Server Form.csproj.CopyComplete
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\Server Form.dll
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\refint\Server Form.dll
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\Server Form.pdb
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\Server Form.genruntimeconfig.cache
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\ref\Server Form.dll
+C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\obj\Debug\net6.0-windows\Server Form.sourcelink.json

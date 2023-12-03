@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/pF4+dCJmEQEOKnPZC7uMjFSzzySdCLg+xyW+3KbJ97H7K54/tKXngS9bOzpTB3uMO1DO7D7c4Lfe9oW+am8lA==",
+  "dgSpecHash": "qsXH8Vl+oybdNsOpI4o6c4trblPXq9/ln/I8xEs6mKdiiEA1vb8O+t5Pn/k1pyuC7dRww4OTQ23vLphIS9HU+g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\HAAIR\\Documents\\I_2023-2024\\Network Programming (5)\\Lab\\Server Form\\Server Form.csproj",
+  "projectFilePath": "C:\\Users\\HAAIR\\Documents\\I_2023-2024\\Network Programming (5)\\Lab\\Mail Server\\Server Form\\Server Form.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\HAAIR\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\HAAIR\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",

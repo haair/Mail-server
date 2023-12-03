@@ -519,11 +519,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\HAAIR\\Documents\\I_2023-2024\\Network Programming (5)\\Lab\\Server Form\\Server Form.csproj",
+      "projectUniqueName": "C:\\Users\\HAAIR\\Documents\\I_2023-2024\\Network Programming (5)\\Lab\\Mail Server\\Server Form\\Server Form.csproj",
       "projectName": "Server Form",
-      "projectPath": "C:\\Users\\HAAIR\\Documents\\I_2023-2024\\Network Programming (5)\\Lab\\Server Form\\Server Form.csproj",
+      "projectPath": "C:\\Users\\HAAIR\\Documents\\I_2023-2024\\Network Programming (5)\\Lab\\Mail Server\\Server Form\\Server Form.csproj",
       "packagesPath": "C:\\Users\\HAAIR\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\HAAIR\\Documents\\I_2023-2024\\Network Programming (5)\\Lab\\Server Form\\obj\\",
+      "outputPath": "C:\\Users\\HAAIR\\Documents\\I_2023-2024\\Network Programming (5)\\Lab\\Mail Server\\Server Form\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\HAAIR\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -580,7 +580,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

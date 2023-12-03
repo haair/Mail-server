@@ -14,4 +14,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Server_Form
-build_property.ProjectDir = C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Server Form\
+build_property.ProjectDir = C:\Users\HAAIR\Documents\I_2023-2024\Network Programming (5)\Lab\Mail Server\Server Form\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

@@ -2,12 +2,13 @@ using System.Data.SqlClient;
 
 namespace Server_Form
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             HServer.Start();
+            HServer.form = this;
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -22,10 +23,9 @@ namespace Server_Form
 
         private void button1_Click(object sender, EventArgs e)
         {
-            HServer.Start();
             string connetionString;
             SqlConnection cnn;
-            connetionString = @"Data Source=HAAIR;Initial Catalog=mail_server;User ID=haair;Password=54321";
+            connetionString = @"Data Source=HAAIR;Initial Catalog=mail_server;User ID=haair;Password=12345";
 
             cnn = new SqlConnection(connetionString);
             cnn.Open();
