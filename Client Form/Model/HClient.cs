@@ -55,7 +55,7 @@ namespace Client_Form.Model
                             Utils.info = sms.info;
                             MainForm mainf = new();
                             mainf.ShowDialog();
-                            //loginForm.Close();
+                            //Utils.loginForm.Close();
                             //Disconnect();
                             break;
                         case 2:
@@ -87,7 +87,7 @@ namespace Client_Form.Model
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
     }

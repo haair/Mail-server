@@ -11,7 +11,7 @@ namespace Server_Form
         private static TcpListener? listener;
         private static readonly IPAddress ip = IPAddress.Parse("127.0.0.1");
         public static MainForm? form;
-        private static readonly string connectionString = "Data Source=HAAIR;Initial Catalog=mail_server;User ID=haair;Password=12345";
+        private static readonly string connectionString = "Data Source=HAAIR;Initial Catalog=mail_server;User ID=haair;Password=12345;MultipleActiveResultSets=True";
 
         public static void Start()
         {
@@ -104,7 +104,7 @@ namespace Server_Form
                             if (rs != -1)
                             {
                                 AddEMail(email);
-                                email.mailboxId = rs;
+                                email.mailboxID = rs;
                                 AddEMail(email);
                                 HMessage hMessage1 = new() { id = 4, };
                                 SendMessage(hMessage1, writer);
@@ -194,14 +194,41 @@ namespace Server_Form
                 cnn.Open();
 
                 SqlCommand sqlCommand;
+                SqlDataReader reader;
+                int new_id = -1;
 
-                string sqlstr = $"INSERT INTO MailMessage (mailboxID, sender, recipient, subject, body, timestamp, status) VALUES ({hEmail.mailboxId}, '{hEmail.sender}', '{hEmail.recipient}', '{hEmail.subject}', '{hEmail.body}', {hEmail.timestamp}, 0)";
+                string sqlstr1 = $"INSERT INTO MailMessage (mailboxID, sender, recipient, subject, body, timestamp, status) VALUES ({hEmail.mailboxID}, '{hEmail.sender}', '{hEmail.recipient}', '{hEmail.subject}', '{hEmail.body}', {hEmail.timestamp}, 0) SELECT SCOPE_IDENTITY()";
 
-                sqlCommand = new SqlCommand(sqlstr, cnn);
-                int rs = sqlCommand.ExecuteNonQuery();
-                if (rs > 0)
+                sqlCommand = new SqlCommand(sqlstr1, cnn);
+                reader = sqlCommand.ExecuteReader();
+
+                if (reader.Read())
                 {
-                    //form?.AddMessage("Insert +1");
+                    new_id = (int)reader.GetDecimal(0);
+                }
+
+                var num_attachment = hEmail.attachments.Count;
+                if (num_attachment > 0)
+                {
+                    string sqlstr2 = $"INSERT INTO Attachment (messageID, fileName) VALUES ";
+                    for (int i = 0; i < num_attachment; i++)
+                    {
+                        if (i == num_attachment - 1)
+                        {
+                            sqlstr2 += $"({new_id}, '{hEmail.attachments.ElementAt(i).fileName}')";
+                        }
+                        else
+                        {
+                            sqlstr2 += $"({new_id}, '{hEmail.attachments.ElementAt(i).fileName}'), ";
+                        }
+
+                        string desPath = $"data\\{hEmail.mailboxID}\\{new_id}\\{hEmail.attachments.ElementAt(i).fileName}";
+                        FileInfo fileInfo = new FileInfo(desPath);
+                        fileInfo.Directory.Create();
+                        File.WriteAllBytes(desPath, hEmail.attachments.ElementAt(i).data);
+                    }
+                    sqlCommand = new SqlCommand(sqlstr2, cnn);
+                    sqlCommand.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
@@ -239,30 +266,76 @@ namespace Server_Form
 
         private static List<HEmail> GetListMessageByMailboxID(int mailboxID)
         {
-            SqlConnection connection = new(connectionString);
-            connection.Open();
-            string sql = $"SELECT * FROM MailMessage WHERE mailboxID = {mailboxID} ORDER BY timestamp DESC";
-            SqlCommand command = new(sql, connection);
-            SqlDataReader reader = command.ExecuteReader();
             List<HEmail> lMail = new();
-
-            while (reader.Read())
+            try
             {
-                HEmail message = new()
+                SqlConnection connection = new(connectionString);
+                connection.Open();
+                string sql = $"SELECT * FROM MailMessage m LEFT JOIN Attachment a ON m.messageID = a.messageID WHERE mailboxID = {mailboxID} ORDER BY timestamp DESC";
+                SqlCommand command = new(sql, connection);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
                 {
-                    messagesId = reader.GetInt32(0),
-                    mailboxId = reader.GetInt32(1),
-                    sender = reader.GetString(2),
-                    recipient = reader.GetString(3),
-                    subject = reader.GetString(4),
-                    body = reader.GetString(5),
-                    timestamp = reader.GetInt32(6),
-                    status = reader.GetInt32(7)
-                };
-                lMail.Add(message);
+                    var messageID = reader.GetInt32(0);
+                    var mBoxID = reader.GetInt32(1);
+                    var sender = reader.GetString(2);
+                    var recipient = reader.GetString(3);
+                    var subject = reader.GetString(4);
+                    var body = reader.GetString(5);
+                    var timestamp = reader.GetInt32(6);
+                    var status = reader.GetInt32(7);
+
+                    HEmail message = new()
+                    {
+                        messageID = messageID,
+                        mailboxID = mBoxID,
+                        sender = sender,
+                        recipient = recipient,
+                        subject = subject,
+                        body = body,
+                        timestamp = timestamp,
+                        status = status,
+                    };
+                    lMail.Add(message);
+                }
+
+                var length = lMail.Count;
+                for (int i = 0; i < length; i++)
+                {
+                    var mID = lMail[i].messageID;
+                    string sql1 = $"SELECT * FROM Attachment WHERE messageID = {mID}";
+                    SqlCommand command1 = new(sql1, connection);
+                    SqlDataReader reader1 = command1.ExecuteReader();
+                    List<HAttachment> lAttachments = new();
+                    while (reader1.Read())
+                    {
+
+                        var attID = reader1.GetInt32(0);
+                        var messID = reader1.GetInt32(1);
+                        var name = reader1.GetString(2);
+                        var data = File.ReadAllBytes($"data\\{mailboxID}\\{messID}\\{name}");
+                        HAttachment attachment = new()
+                        {
+                            attachmentID = attID,
+                            messageID = messID,
+                            fileName = name,
+                            data = data
+                        };
+                        lAttachments.Add(attachment);
+                    }
+                    lMail[i].attachments = lAttachments;
+                }
+
+
+                connection.Close();
+                return lMail;
             }
-            connection.Close();
-            return lMail;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
         }
 
         public static void SendMessage(HMessage message, BinaryWriter binaryWriter)

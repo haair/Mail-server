@@ -16,13 +16,98 @@ namespace Client_Form
                 MessageBox.Show("Vui lòng nhập đủ thông tin");
                 return;
             }
+
             HMessage sms = new()
             {
                 id = 4,
             };
-            HEmail email = new(-1, Utils.info.mailBox, Utils.info.emailAddress, txtNguoiNhan.Text, txtTieuDe.Text, txtNoiDung.Text, Utils.CurrentTimeSeconds(), 0);
+            List<HAttachment> attachments = new();
+            if (table_attachment.Rows.Count > 0)
+            {
+                for (int i = 0; i < table_attachment.Rows.Count; i++)
+                {
+                    HAttachment attachment = new HAttachment();
+                    attachment.fileName = table_attachment.Rows[i].Cells[0].Value.ToString();
+                    attachment.data = File.ReadAllBytes(table_attachment.Rows[i].Cells[1].Value.ToString());
+
+                    attachments.Add(attachment);
+                }
+            }
+            HEmail email = new(-1, Utils.info.mailBox, Utils.info.emailAddress, txtNguoiNhan.Text, txtTieuDe.Text, txtNoiDung.Text, Utils.CurrentTimeSeconds(), 0, attachments);
             sms.AddEmail(email);
             HClient.SendMessage(sms);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Thread STAThread = new(delegate ()
+                {
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.Filter = "All files(*.*)|*.*|All files(*.*)|*.*";
+                    openFileDialog.Title = "Browse Image";
+                    openFileDialog.InitialDirectory = "C:\\Users\\HAAIR\\Pictures\\";
+                    //openFileDialog.FilterIndex = 100;
+                    //openFileDialog.RestoreDirectory = true;
+                    openFileDialog.Multiselect = true;
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        Thread thread = new(() =>
+                        {
+                            var filenames = openFileDialog.SafeFileNames;
+                            var paths = openFileDialog.FileNames;
+                            if (filenames.Length > 0)
+                            {
+
+                                lb_tep_dinh_kem.Invoke(new MethodInvoker(delegate
+                                {
+                                    lb_tep_dinh_kem.Visible = true;
+                                }));
+                                table_attachment.Invoke(new MethodInvoker(delegate
+                                {
+                                    table_attachment.Visible = true;
+                                }
+                                ));
+                            }
+                            for (int i = 0; i < filenames.Length; i++)
+                            {
+                                AddRowTableSafe(filenames[i], paths[i]);
+                            }
+                        })
+                        {
+                            IsBackground = true
+                        };
+                        thread.Start();
+                    }
+                });
+                STAThread.SetApartmentState(ApartmentState.STA);
+                STAThread.Start();
+                STAThread.Join();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddRowTableSafe(string filename, string path)
+        {
+            if (table_attachment.InvokeRequired)
+            {
+                Action safeAction = delegate { AddRowTableSafe(filename, path); };
+                table_attachment.Invoke(safeAction);
+            }
+            else
+            {
+                table_attachment.Rows.Add(new string[] { filename, path, "Xóa" });
+            }
         }
     }
 }

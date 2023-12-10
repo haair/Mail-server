@@ -1,5 +1,3 @@
-using System.Data.SqlClient;
-
 namespace Server_Form
 {
     public partial class MainForm : Form
@@ -23,27 +21,37 @@ namespace Server_Form
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string connetionString;
-            SqlConnection cnn;
-            connetionString = @"Data Source=HAAIR;Initial Catalog=mail_server;User ID=haair;Password=12345";
-
-            cnn = new SqlConnection(connetionString);
-            cnn.Open();
-
-            SqlCommand sqlCommand;
-            SqlDataReader reader;
-
-            string sqlstr = "SELECT * FROM MailUser";
-
-            sqlCommand = new SqlCommand(sqlstr, cnn);
-            reader = sqlCommand.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                AddMessage(reader.GetString(1));
-            }
+                //string ori = "C:\\Users\\HAAIR\\Pictures\\LGB-Gay.jpg";
+                //string desPath = "C:\\Users\\HAAIR\\Desktop\\New folder (2)\\Test Folder\\hihi\\NRO.png";
+                //byte[] fileData = File.ReadAllBytes(ori);
+                //FileInfo fileInfo = new FileInfo(desPath);
+                //fileInfo.Directory.Create();
+                //File.WriteAllBytes(desPath, fileData);
+                Thread t = new Thread(() =>
+                {
+                    using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+                    {
+                        DialogResult result = folderDialog.ShowDialog();
 
-            cnn.Close();
+                        if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderDialog.SelectedPath))
+                        {
+                            string selectedFolder = folderDialog.SelectedPath;
+                            // Do something with the selected folder path
+                            MessageBox.Show("Selected Folder: " + selectedFolder);
+                        }
+                    }
+                });
+
+                t.SetApartmentState(ApartmentState.STA);
+                t.Start();
+                t.Join();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)

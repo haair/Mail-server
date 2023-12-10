@@ -9,6 +9,9 @@ namespace Client_Form
         {
             InitializeComponent();
             Utils.mainForm = this;
+            SetHello();
+            HClient.Connect();
+            SendRequestMailbox();
         }
         private void label1_Click(object sender, EventArgs e)
         {
@@ -52,11 +55,11 @@ namespace Client_Form
                     tbl_thu_da_gui.Rows.Clear();
                     foreach (HEmail m in Utils.mailNhan)
                     {
-                        tbl_hop_thu_den.Rows.Add(m.messagesId, m.sender, m.subject, Utils.GetTimeAgo(m.timestamp));
+                        tbl_hop_thu_den.Rows.Add(m.messageID, m.sender, m.subject, Utils.GetTimeAgo(m.timestamp));
                     }
                     foreach (HEmail m in Utils.mailGui)
                     {
-                        tbl_thu_da_gui.Rows.Add(m.messagesId, m.recipient, m.subject, Utils.GetTimeAgo(m.timestamp));
+                        tbl_thu_da_gui.Rows.Add(m.messageID, m.recipient, m.subject, Utils.GetTimeAgo(m.timestamp));
                     }
                 }
                 ));
@@ -75,9 +78,7 @@ namespace Client_Form
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            SetHello();
-            HClient.Connect();
-            SendRequestMailbox();
+
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -101,10 +102,10 @@ namespace Client_Form
 
             foreach (var mail in Utils.mailNhan)
             {
-                if (mail.messagesId == id)
+                if (mail.messageID == id)
                 {
                     var form = new ViewEmailForm(mail);
-                    form.ShowDialog();
+                    form.Show();
                     return;
                 }
             }
@@ -113,7 +114,7 @@ namespace Client_Form
         private void button1_Click(object sender, EventArgs e)
         {
             var form = new SendEmailForm();
-            form.ShowDialog();
+            form.Show();
         }
 
         private void tbl_thu_da_gui_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -123,10 +124,10 @@ namespace Client_Form
 
             foreach (var mail in Utils.mailGui)
             {
-                if (mail.messagesId == id)
+                if (mail.messageID == id)
                 {
                     var form = new ViewEmailForm(mail);
-                    form.ShowDialog();
+                    form.Show();
                     return;
                 }
             }
