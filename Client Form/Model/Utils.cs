@@ -10,6 +10,7 @@
         public static List<HEmail> allEmail = new();
         public static List<HEmail> mailNhan = new();
         public static List<HEmail> mailGui = new();
+        public static List<HEmail> mailBin = new();
 
         public static string GetTimeAgo(int second)
         {

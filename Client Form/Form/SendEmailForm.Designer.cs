@@ -49,64 +49,64 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(12, 16);
-            label1.Margin = new Padding(3, 12, 3, 0);
+            label1.Location = new Point(10, 12);
+            label1.Margin = new Padding(3, 9, 3, 0);
             label1.Name = "label1";
-            label1.Size = new Size(96, 20);
+            label1.Size = new Size(75, 15);
             label1.TabIndex = 0;
             label1.Text = "Người nhận:";
             // 
             // txtNguoiNhan
             // 
-            txtNguoiNhan.Location = new Point(114, 12);
-            txtNguoiNhan.Margin = new Padding(3, 12, 20, 3);
+            txtNguoiNhan.Location = new Point(100, 9);
+            txtNguoiNhan.Margin = new Padding(3, 9, 18, 2);
             txtNguoiNhan.Name = "txtNguoiNhan";
-            txtNguoiNhan.Size = new Size(514, 27);
+            txtNguoiNhan.Size = new Size(450, 23);
             txtNguoiNhan.TabIndex = 1;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.Location = new Point(44, 61);
+            label2.Location = new Point(38, 46);
             label2.Name = "label2";
-            label2.Size = new Size(64, 20);
+            label2.Size = new Size(52, 15);
             label2.TabIndex = 0;
             label2.Text = "Tiêu đề:";
             // 
             // txtTieuDe
             // 
-            txtTieuDe.Location = new Point(114, 58);
-            txtTieuDe.Margin = new Padding(3, 3, 20, 3);
+            txtTieuDe.Location = new Point(100, 44);
+            txtTieuDe.Margin = new Padding(3, 2, 18, 2);
             txtTieuDe.Name = "txtTieuDe";
-            txtTieuDe.Size = new Size(514, 27);
+            txtTieuDe.Size = new Size(450, 23);
             txtTieuDe.TabIndex = 1;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.Location = new Point(30, 104);
+            label3.Location = new Point(26, 78);
             label3.Name = "label3";
-            label3.Size = new Size(78, 20);
+            label3.Size = new Size(60, 15);
             label3.TabIndex = 0;
             label3.Text = "Nội dung:";
             // 
             // txtNoiDung
             // 
-            txtNoiDung.Location = new Point(12, 127);
-            txtNoiDung.Margin = new Padding(3, 3, 3, 12);
+            txtNoiDung.Location = new Point(10, 95);
+            txtNoiDung.Margin = new Padding(3, 2, 3, 9);
             txtNoiDung.Name = "txtNoiDung";
-            txtNoiDung.Size = new Size(616, 377);
+            txtNoiDung.Size = new Size(540, 284);
             txtNoiDung.TabIndex = 2;
             txtNoiDung.Text = "";
             // 
             // button1
             // 
-            button1.Location = new Point(651, 12);
-            button1.Margin = new Padding(3, 12, 12, 20);
+            button1.Location = new Point(570, 9);
+            button1.Margin = new Padding(3, 9, 10, 15);
             button1.Name = "button1";
-            button1.Size = new Size(122, 29);
+            button1.Size = new Size(107, 22);
             button1.TabIndex = 3;
             button1.Text = "Gửi";
             button1.UseVisualStyleBackColor = true;
@@ -114,10 +114,10 @@
             // 
             // button2
             // 
-            button2.Location = new Point(651, 61);
-            button2.Margin = new Padding(3, 0, 12, 3);
+            button2.Location = new Point(570, 46);
+            button2.Margin = new Padding(3, 0, 10, 2);
             button2.Name = "button2";
-            button2.Size = new Size(122, 29);
+            button2.Size = new Size(107, 22);
             button2.TabIndex = 4;
             button2.Text = "Tệp đính kèm";
             button2.UseVisualStyleBackColor = true;
@@ -129,9 +129,10 @@
             table_attachment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             table_attachment.ColumnHeadersVisible = false;
             table_attachment.Columns.AddRange(new DataGridViewColumn[] { Column1, Column3, Column2 });
-            table_attachment.Location = new Point(12, 544);
-            table_attachment.Margin = new Padding(3, 3, 3, 12);
+            table_attachment.Location = new Point(10, 408);
+            table_attachment.Margin = new Padding(3, 2, 3, 9);
             table_attachment.Name = "table_attachment";
+            table_attachment.ReadOnly = true;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
@@ -143,15 +144,17 @@
             table_attachment.RowHeadersVisible = false;
             table_attachment.RowHeadersWidth = 50;
             table_attachment.RowTemplate.Height = 29;
-            table_attachment.Size = new Size(616, 150);
+            table_attachment.Size = new Size(539, 112);
             table_attachment.TabIndex = 5;
             table_attachment.Visible = false;
+            table_attachment.CellClick += table_attachment_CellClick;
             // 
             // Column1
             // 
             Column1.HeaderText = "Tên tệp";
             Column1.MinimumWidth = 6;
             Column1.Name = "Column1";
+            Column1.ReadOnly = true;
             Column1.Width = 200;
             // 
             // Column3
@@ -160,6 +163,7 @@
             Column3.HeaderText = "Path";
             Column3.MinimumWidth = 6;
             Column3.Name = "Column3";
+            Column3.ReadOnly = true;
             // 
             // Column2
             // 
@@ -167,26 +171,27 @@
             Column2.HeaderText = "Xóa";
             Column2.MinimumWidth = 6;
             Column2.Name = "Column2";
+            Column2.ReadOnly = true;
             Column2.Width = 70;
             // 
             // lb_tep_dinh_kem
             // 
             lb_tep_dinh_kem.AutoSize = true;
             lb_tep_dinh_kem.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            lb_tep_dinh_kem.Location = new Point(12, 521);
+            lb_tep_dinh_kem.Location = new Point(10, 391);
             lb_tep_dinh_kem.Name = "lb_tep_dinh_kem";
-            lb_tep_dinh_kem.Size = new Size(108, 20);
+            lb_tep_dinh_kem.Size = new Size(87, 15);
             lb_tep_dinh_kem.TabIndex = 6;
             lb_tep_dinh_kem.Text = "Tệp đính kèm:";
             lb_tep_dinh_kem.Visible = false;
             // 
             // SendEmailForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            ClientSize = new Size(839, 730);
+            ClientSize = new Size(734, 548);
             Controls.Add(lb_tep_dinh_kem);
             Controls.Add(table_attachment);
             Controls.Add(button2);
@@ -197,6 +202,7 @@
             Controls.Add(label2);
             Controls.Add(txtNguoiNhan);
             Controls.Add(label1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "SendEmailForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Thư mới";

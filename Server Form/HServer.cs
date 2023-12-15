@@ -114,6 +114,10 @@ namespace Server_Form
                             HMessage hMessage = new() { id = -4, };
                             SendMessage(hMessage, writer);
                             break;
+                        case 5:
+                            var messID = mess.ReadInt();
+                            RemoveMailIntoBin(messID);
+                            break;
                     }
                 }
             }
@@ -237,6 +241,19 @@ namespace Server_Form
             }
         }
 
+        private static void RemoveMailIntoBin(int messageID)
+        {
+            SqlConnection connection = new(connectionString);
+            connection.Open();
+            string sql = $"UPDATE MailMessage SET status = -1 WHERE messageID = {messageID}";
+            SqlCommand command = new(sql, connection);
+            var result = command.ExecuteNonQuery();
+            if (result != 0)
+            {
+                form?.AddMessage("Update successfully!");
+            }
+        }
+
         private static string[] GetInfoByUsername(string username)
         {
             SqlConnection cnn;
@@ -271,7 +288,7 @@ namespace Server_Form
             {
                 SqlConnection connection = new(connectionString);
                 connection.Open();
-                string sql = $"SELECT * FROM MailMessage m LEFT JOIN Attachment a ON m.messageID = a.messageID WHERE mailboxID = {mailboxID} ORDER BY timestamp DESC";
+                string sql = $"SELECT * FROM MailMessage WHERE mailboxID = {mailboxID} ORDER BY timestamp DESC";
                 SqlCommand command = new(sql, connection);
                 SqlDataReader reader = command.ExecuteReader();
 
@@ -334,7 +351,7 @@ namespace Server_Form
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                return null;
+                return lMail;
             }
         }
 

@@ -62,13 +62,17 @@ namespace Client_Form.Model
                             Utils.allEmail = sms.listMail;
                             foreach (var email in Utils.allEmail)
                             {
-                                if (email.sender == Utils.info.emailAddress)
+                                if (email.sender == Utils.info.emailAddress && email.status == 0)
                                 {
                                     Utils.mailGui.Add(email);
                                 }
-                                else
+                                else if (email.sender != Utils.info.emailAddress && email.status == 0)
                                 {
                                     Utils.mailNhan.Add(email);
+                                }
+                                else
+                                {
+                                    Utils.mailBin.Add(email);
                                 }
                             }
                             Utils.mainForm.AddRow();
@@ -87,7 +91,7 @@ namespace Client_Form.Model
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
             }
         }
     }

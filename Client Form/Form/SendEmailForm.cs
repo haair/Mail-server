@@ -44,10 +44,10 @@ namespace Client_Form
             {
                 Thread STAThread = new(delegate ()
                 {
-                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    OpenFileDialog openFileDialog = new();
                     openFileDialog.Filter = "All files(*.*)|*.*|All files(*.*)|*.*";
                     openFileDialog.Title = "Browse Image";
-                    openFileDialog.InitialDirectory = "C:\\Users\\HAAIR\\Pictures\\";
+                    openFileDialog.InitialDirectory = "C:\\Users\\%username%\\";
                     //openFileDialog.FilterIndex = 100;
                     //openFileDialog.RestoreDirectory = true;
                     openFileDialog.Multiselect = true;
@@ -107,6 +107,15 @@ namespace Client_Form
             else
             {
                 table_attachment.Rows.Add(new string[] { filename, path, "Xóa" });
+            }
+        }
+
+        private void table_attachment_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var row_index = table_attachment.CurrentCell.RowIndex;
+            if (table_attachment.CurrentCell.ColumnIndex == 2)
+            {
+                table_attachment.Rows.RemoveAt(row_index);
             }
         }
     }

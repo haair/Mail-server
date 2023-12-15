@@ -52,17 +52,30 @@ namespace Client_Form
                 tbl_hop_thu_den.Invoke(new MethodInvoker(delegate
                 {
                     tbl_hop_thu_den.Rows.Clear();
-                    tbl_thu_da_gui.Rows.Clear();
                     foreach (HEmail m in Utils.mailNhan)
                     {
                         tbl_hop_thu_den.Rows.Add(m.messageID, m.sender, m.subject, Utils.GetTimeAgo(m.timestamp));
                     }
+                }
+                ));
+                tbl_thu_da_gui.Invoke(new MethodInvoker(delegate
+                {
+                    tbl_thu_da_gui.Rows.Clear();
                     foreach (HEmail m in Utils.mailGui)
                     {
                         tbl_thu_da_gui.Rows.Add(m.messageID, m.recipient, m.subject, Utils.GetTimeAgo(m.timestamp));
                     }
                 }
-                ));
+               ));
+                tbl_thung_rac.Invoke(new MethodInvoker(delegate
+                {
+                    tbl_thung_rac.Rows.Clear();
+                    foreach (HEmail m in Utils.mailBin)
+                    {
+                        tbl_thung_rac.Rows.Add(m.messageID, m.sender, m.recipient, m.subject, Utils.GetTimeAgo(m.timestamp));
+                    }
+                }
+               ));
             }
             catch (Exception ex)
             {
@@ -131,6 +144,32 @@ namespace Client_Form
                     return;
                 }
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DataGridView gridView;
+            var tab_index = tabControl1.SelectedIndex;
+            if (tab_index == 0)
+            {
+                gridView = tbl_hop_thu_den;
+            }
+            else
+            {
+                gridView = tbl_thu_da_gui;
+            }
+            int row_index = gridView.CurrentCell.RowIndex;
+            if (row_index < 0)
+            {
+                return;
+            }
+            int messageID = int.Parse(gridView.Rows[row_index].Cells[0].Value.ToString());
+            HMessage hMessage = new()
+            {
+                id = 5
+            };
+            hMessage.WriteInt(messageID);
+            HClient.SendMessage(hMessage);
         }
     }
 }

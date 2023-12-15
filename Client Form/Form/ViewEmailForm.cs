@@ -65,7 +65,7 @@ namespace Client_Form
             {
                 if (tbl_tep_dinh_kem.CurrentCell.ColumnIndex == 2)
                 {
-                    Thread t = new Thread(() =>
+                    Thread t = new(() =>
                     {
                         using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
                         {
