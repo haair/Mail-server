@@ -91,7 +91,7 @@ namespace Client_Form
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = tbl_hop_thu_den.CurrentCell.RowIndex;
-            int id = int.Parse(tbl_hop_thu_den.Rows[index].Cells[0].Value.ToString());
+            int id = (int)tbl_hop_thu_den.Rows[index].Cells[0].Value;
 
             foreach (var mail in Utils.mailNhan)
             {
@@ -113,7 +113,7 @@ namespace Client_Form
         private void tbl_thu_da_gui_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = tbl_thu_da_gui.CurrentCell.RowIndex;
-            int id = int.Parse(tbl_thu_da_gui.Rows[index].Cells[0].Value.ToString());
+            int id = (int)tbl_thu_da_gui.Rows[index].Cells[0].Value;
 
             foreach (var mail in Utils.mailGui)
             {
@@ -149,7 +149,7 @@ namespace Client_Form
             {
                 return;
             }
-            int messageID = int.Parse(gridView.Rows[row_index].Cells[0].Value.ToString());
+            int messageID = (int)gridView.Rows[row_index].Cells[0].Value;
             HMessage hMessage = new();
             hMessage.WriteInt(messageID);
             if (remove)
@@ -176,7 +176,7 @@ namespace Client_Form
         private void tbl_thung_rac_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = tbl_thung_rac.CurrentCell.RowIndex;
-            int id = int.Parse(tbl_thung_rac.Rows[index].Cells[0].Value.ToString());
+            int id = (int)tbl_thung_rac.Rows[index].Cells[0].Value;
 
             foreach (var mail in Utils.mailBin)
             {
@@ -199,7 +199,7 @@ namespace Client_Form
             int row_sel_index = tbl_thung_rac.CurrentCell.RowIndex;
             if (row_sel_index > -1)
             {
-                int id_mail_sel = int.Parse(tbl_thung_rac.Rows[row_sel_index].Cells[0].Value.ToString());
+                int id_mail_sel = (int)tbl_thung_rac.Rows[row_sel_index].Cells[0].Value;
                 HMessage hMessage = new()
                 {
                     id = 8
@@ -255,8 +255,8 @@ namespace Client_Form
         private void button5_Click(object sender, EventArgs e)
         {
             int index = tbl_hop_thu_den.CurrentCell.RowIndex;
-            int id = int.Parse(tbl_hop_thu_den.Rows[index].Cells[0].Value.ToString());
-            int status = int.Parse(tbl_hop_thu_den.Rows[index].Cells[4].Value.ToString());
+            int id = (int)tbl_hop_thu_den.Rows[index].Cells[0].Value;
+            int status = (int)tbl_hop_thu_den.Rows[index].Cells[4].Value;
             if (index > -1)
             {
                 HMessage message = new()
