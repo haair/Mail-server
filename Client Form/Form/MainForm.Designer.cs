@@ -44,17 +44,23 @@
             tabPage3 = new TabPage();
             tabPage4 = new TabPage();
             tbl_thung_rac = new DataGridView();
+            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
+            Column4 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn8 = new DataGridViewTextBoxColumn();
             button1 = new Button();
             button2 = new Button();
             button3 = new Button();
             label1 = new Label();
             button4 = new Button();
             label2 = new Label();
-            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn8 = new DataGridViewTextBoxColumn();
+            btn_restore = new Button();
+            menuStrip1 = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            closeToolStripMenuItem = new ToolStripMenuItem();
+            editToolStripMenuItem = new ToolStripMenuItem();
+            viewToolStripMenuItem = new ToolStripMenuItem();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)tbl_hop_thu_den).BeginInit();
@@ -62,6 +68,7 @@
             ((System.ComponentModel.ISupportInitialize)tbl_thu_da_gui).BeginInit();
             tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)tbl_thung_rac).BeginInit();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -71,12 +78,13 @@
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Controls.Add(tabPage4);
             tabControl1.Dock = DockStyle.Left;
-            tabControl1.Location = new Point(0, 0);
+            tabControl1.Location = new Point(0, 24);
             tabControl1.Margin = new Padding(2);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(758, 508);
+            tabControl1.Size = new Size(758, 484);
             tabControl1.TabIndex = 0;
+            tabControl1.TabIndexChanged += tabControl1_TabIndexChanged;
             // 
             // tabPage1
             // 
@@ -85,7 +93,7 @@
             tabPage1.Margin = new Padding(2);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(2);
-            tabPage1.Size = new Size(750, 480);
+            tabPage1.Size = new Size(750, 456);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Hộp thư đến";
             tabPage1.UseVisualStyleBackColor = true;
@@ -104,7 +112,7 @@
             tbl_hop_thu_den.RowHeadersVisible = false;
             tbl_hop_thu_den.RowHeadersWidth = 62;
             tbl_hop_thu_den.RowTemplate.Height = 33;
-            tbl_hop_thu_den.Size = new Size(746, 476);
+            tbl_hop_thu_den.Size = new Size(746, 452);
             tbl_hop_thu_den.TabIndex = 0;
             tbl_hop_thu_den.CellClick += dataGridView1_CellClick;
             tbl_hop_thu_den.CellDoubleClick += dataGridView1_CellDoubleClick;
@@ -145,7 +153,7 @@
             tabPage2.Margin = new Padding(2);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(2);
-            tabPage2.Size = new Size(750, 480);
+            tabPage2.Size = new Size(750, 456);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Thư đã gửi";
             tabPage2.UseVisualStyleBackColor = true;
@@ -164,7 +172,7 @@
             tbl_thu_da_gui.RowHeadersVisible = false;
             tbl_thu_da_gui.RowHeadersWidth = 62;
             tbl_thu_da_gui.RowTemplate.Height = 33;
-            tbl_thu_da_gui.Size = new Size(746, 476);
+            tbl_thu_da_gui.Size = new Size(746, 452);
             tbl_thu_da_gui.TabIndex = 1;
             tbl_thu_da_gui.CellDoubleClick += tbl_thu_da_gui_CellDoubleClick;
             // 
@@ -203,7 +211,7 @@
             tabPage3.Margin = new Padding(2);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(2);
-            tabPage3.Size = new Size(750, 480);
+            tabPage3.Size = new Size(750, 456);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Tất cả thư";
             tabPage3.UseVisualStyleBackColor = true;
@@ -215,7 +223,7 @@
             tabPage4.Margin = new Padding(2);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(2);
-            tabPage4.Size = new Size(750, 480);
+            tabPage4.Size = new Size(750, 456);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Thùng rác";
             tabPage4.UseVisualStyleBackColor = true;
@@ -234,8 +242,44 @@
             tbl_thung_rac.RowHeadersVisible = false;
             tbl_thung_rac.RowHeadersWidth = 62;
             tbl_thung_rac.RowTemplate.Height = 33;
-            tbl_thung_rac.Size = new Size(746, 476);
+            tbl_thung_rac.Size = new Size(746, 452);
             tbl_thung_rac.TabIndex = 2;
+            tbl_thung_rac.CellDoubleClick += tbl_thung_rac_CellDoubleClick;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            dataGridViewTextBoxColumn5.HeaderText = "Email Id";
+            dataGridViewTextBoxColumn5.MinimumWidth = 6;
+            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            dataGridViewTextBoxColumn5.ReadOnly = true;
+            dataGridViewTextBoxColumn5.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            dataGridViewTextBoxColumn6.HeaderText = "Người gửi";
+            dataGridViewTextBoxColumn6.MinimumWidth = 8;
+            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            Column4.HeaderText = "Người nhận";
+            Column4.Name = "Column4";
+            Column4.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            dataGridViewTextBoxColumn7.HeaderText = "Tiêu đề";
+            dataGridViewTextBoxColumn7.MinimumWidth = 8;
+            dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            dataGridViewTextBoxColumn7.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            dataGridViewTextBoxColumn8.HeaderText = "Thời gian";
+            dataGridViewTextBoxColumn8.MinimumWidth = 8;
+            dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            dataGridViewTextBoxColumn8.ReadOnly = true;
             // 
             // button1
             // 
@@ -257,6 +301,7 @@
             button2.TabIndex = 1;
             button2.Text = "Đăng xuất";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -301,45 +346,56 @@
             label2.Text = "label2";
             label2.Click += label2_Click;
             // 
-            // dataGridViewTextBoxColumn5
+            // btn_restore
             // 
-            dataGridViewTextBoxColumn5.HeaderText = "Email Id";
-            dataGridViewTextBoxColumn5.MinimumWidth = 6;
-            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            dataGridViewTextBoxColumn5.ReadOnly = true;
+            btn_restore.Location = new Point(778, 216);
+            btn_restore.Name = "btn_restore";
+            btn_restore.Size = new Size(75, 23);
+            btn_restore.TabIndex = 5;
+            btn_restore.Text = "Khôi phục";
+            btn_restore.UseVisualStyleBackColor = true;
+            btn_restore.Visible = false;
             // 
-            // dataGridViewTextBoxColumn6
+            // menuStrip1
             // 
-            dataGridViewTextBoxColumn6.HeaderText = "Người gửi";
-            dataGridViewTextBoxColumn6.MinimumWidth = 8;
-            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            dataGridViewTextBoxColumn6.ReadOnly = true;
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(880, 24);
+            menuStrip1.TabIndex = 6;
+            menuStrip1.Text = "menuStrip1";
             // 
-            // Column4
+            // fileToolStripMenuItem
             // 
-            Column4.HeaderText = "Người nhận";
-            Column4.Name = "Column4";
-            Column4.ReadOnly = true;
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { closeToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Text = "File";
             // 
-            // dataGridViewTextBoxColumn7
+            // closeToolStripMenuItem
             // 
-            dataGridViewTextBoxColumn7.HeaderText = "Tiêu đề";
-            dataGridViewTextBoxColumn7.MinimumWidth = 8;
-            dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            dataGridViewTextBoxColumn7.ReadOnly = true;
+            closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            closeToolStripMenuItem.Size = new Size(103, 22);
+            closeToolStripMenuItem.Text = "Close";
             // 
-            // dataGridViewTextBoxColumn8
+            // editToolStripMenuItem
             // 
-            dataGridViewTextBoxColumn8.HeaderText = "Thời gian";
-            dataGridViewTextBoxColumn8.MinimumWidth = 8;
-            dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            dataGridViewTextBoxColumn8.ReadOnly = true;
+            editToolStripMenuItem.Name = "editToolStripMenuItem";
+            editToolStripMenuItem.Size = new Size(39, 20);
+            editToolStripMenuItem.Text = "Edit";
+            // 
+            // viewToolStripMenuItem
+            // 
+            viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            viewToolStripMenuItem.Size = new Size(44, 20);
+            viewToolStripMenuItem.Text = "View";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(880, 508);
+            Controls.Add(btn_restore);
             Controls.Add(label2);
             Controls.Add(button4);
             Controls.Add(label1);
@@ -347,6 +403,8 @@
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(tabControl1);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
             Margin = new Padding(2);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
@@ -360,6 +418,8 @@
             ((System.ComponentModel.ISupportInitialize)tbl_thu_da_gui).EndInit();
             tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)tbl_thung_rac).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -393,5 +453,11 @@
         private DataGridViewTextBoxColumn Column4;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private Button btn_restore;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem closeToolStripMenuItem;
+        private ToolStripMenuItem editToolStripMenuItem;
+        private ToolStripMenuItem viewToolStripMenuItem;
     }
 }

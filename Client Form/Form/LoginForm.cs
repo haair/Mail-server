@@ -1,4 +1,6 @@
 ﻿using Client_Form.Model;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace Client_Form
 {
@@ -28,14 +30,13 @@ namespace Client_Form
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void RequestLogin()
         {
             if (txt_tk_login.Text == "" || txt_mk_login.Text == "")
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin");
                 return;
             }
-
 
             try
             {
@@ -56,56 +57,108 @@ namespace Client_Form
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            RequestLogin();
+        }
+
+        private bool IsValidPassword(string password)
+        {
+            Regex validateGuidRegex = new("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
+            if (validateGuidRegex.IsMatch(password))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool IsValidUsername(string username)
+        {
+            var regexItem = new Regex("^[^0-9\\W][\\w]*$");
+
+            if (regexItem.IsMatch(username))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
         private void button2_Click(object sender, EventArgs e)
         {
-            if (txt_tk_sign.Text == "" || txt_mk_sign.Text == "" || txt_mk2_sign.Text == "" || txt_email_sign.Text == "" || txt_name_sign.Text == "")
+            string username = txt_tk_sign.Text;
+            string password = txt_mk_sign.Text;
+            string password2 = txt_mk2_sign.Text;
+            string fullName = txt_name_sign.Text;
+            string emailAddress = txt_email_sign.Text;
+
+            if (username == "" || password == "" || password2 == "" || fullName == "" || emailAddress == "")
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin");
                 return;
             }
-            if (txt_mk_sign.Text != txt_mk2_sign.Text)
+
+            if (!IsValidUsername(username))
             {
-                MessageBox.Show("Mật khẩu nhập lại không chính xác");
+                MessageBox.Show("Tài khoản không được bắt đầu bằng số\nvà\nkhông chứa ký tự đặc biệt");
                 return;
             }
-            //string connectionString = "Data Source=HAAIR;Initial Catalog=mail_server;User ID=haair;Password=54321";
 
-            //SqlConnection connection = new SqlConnection(connectionString);
+            if (password != password2)
+            {
+                MessageBox.Show("Mật khẩu xác nhận không chính xác");
+                return;
+            }
 
-            //try
-            //{
-            //    connection.Open();
-            //    string tk = txt_tk_sign.Text;
-            //    string mk = txt_mk_sign.Text;
-            //    string name = txt_name_sign.Text;
-            //    string email = txt_email_sign.Text;
-            //    string sql_login = $"SELECT * FROM MailUser WHERE username = '{tk}' AND emailAddress = '{email}'";
+            if (!IsValidPassword(password))
+            {
+                MessageBox.Show("Mật khẩu phải có:\nĐộ dài tối thiểu 8 ký tự\nÍt nhất một chữ cái viết hoa\nÍt nhất một chữ cái viết thường\nÍt nhất một chữ số\nÍt nhất một ký tự đặc biệt");
+                return;
+            }
 
-            //    SqlCommand command = new SqlCommand(sql_login, connection);
-            //    SqlDataReader reader = command.ExecuteReader();
+            try
+            {
+                _ = new MailAddress(emailAddress);
 
-            //    if (reader.Read())
-            //    {
-            //        MessageBox.Show("Tài khoản/email tồn tại");
-            //        return;
-            //    }
-            //    reader.Close();
-            //    string add_user = $"INSERT INTO MailUser(username, password, fullName, emailAddress) VALUES ('{tk}', '{mk}', '{name}', '{email}')";
-            //    SqlCommand command1 = new SqlCommand(add_user, connection);
-            //    int rs = command1.ExecuteNonQuery();
-            //    if (rs == 1)
-            //    {
-            //        MessageBox.Show("Đăng ký thành công");
-            //        return;
-            //    }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Địa chỉ email không hợp lệ");
+                return;
+            }
 
+            HRegisterInfo ri = new(username, password, fullName, emailAddress);
+            HMessage sms = new()
+            {
+                id = 7,
+                registerInfo = ri
+            };
+            HClient.SendMessage(sms);
+        }
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
+        private void txt_mk_login_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                RequestLogin();
+            }
+        }
 
+        private void ClearRegister()
+        {
+            txt_tk_sign.Text = string.Empty;
+            txt_mk_sign.Text = string.Empty;
+            txt_mk2_sign.Text = string.Empty;
+            txt_name_sign.Text = string.Empty;
+            txt_email_sign.Text = string.Empty;
+        }
+
+        private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            HClient.Disconnect();
         }
     }
 }
+

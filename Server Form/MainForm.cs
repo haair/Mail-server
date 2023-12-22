@@ -29,18 +29,16 @@ namespace Server_Form
                 //FileInfo fileInfo = new FileInfo(desPath);
                 //fileInfo.Directory.Create();
                 //File.WriteAllBytes(desPath, fileData);
-                Thread t = new Thread(() =>
+                Thread t = new(() =>
                 {
-                    using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
-                    {
-                        DialogResult result = folderDialog.ShowDialog();
+                    using FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+                    DialogResult result = folderDialog.ShowDialog();
 
-                        if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderDialog.SelectedPath))
-                        {
-                            string selectedFolder = folderDialog.SelectedPath;
-                            // Do something with the selected folder path
-                            MessageBox.Show("Selected Folder: " + selectedFolder);
-                        }
+                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderDialog.SelectedPath))
+                    {
+                        string selectedFolder = folderDialog.SelectedPath;
+                        // Do something with the selected folder path
+                        MessageBox.Show("Selected Folder: " + selectedFolder);
                     }
                 });
 
@@ -60,6 +58,11 @@ namespace Server_Form
         }
 
         private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
         }

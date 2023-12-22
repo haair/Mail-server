@@ -99,6 +99,7 @@
             txt_mk_login.PasswordChar = '●';
             txt_mk_login.Size = new Size(219, 23);
             txt_mk_login.TabIndex = 7;
+            txt_mk_login.KeyDown += txt_mk_login_KeyDown;
             // 
             // txt_tk_login
             // 
@@ -153,7 +154,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(245, 181);
+            button2.Location = new Point(244, 181);
             button2.Margin = new Padding(2);
             button2.Name = "button2";
             button2.Size = new Size(147, 39);
@@ -183,6 +184,7 @@
             txt_mk2_sign.Location = new Point(203, 100);
             txt_mk2_sign.Margin = new Padding(2);
             txt_mk2_sign.Name = "txt_mk2_sign";
+            txt_mk2_sign.PasswordChar = '●';
             txt_mk2_sign.Size = new Size(221, 23);
             txt_mk2_sign.TabIndex = 1;
             // 
@@ -191,6 +193,7 @@
             txt_mk_sign.Location = new Point(203, 73);
             txt_mk_sign.Margin = new Padding(2);
             txt_mk_sign.Name = "txt_mk_sign";
+            txt_mk_sign.PasswordChar = '●';
             txt_mk_sign.Size = new Size(221, 23);
             txt_mk_sign.TabIndex = 1;
             // 
@@ -261,7 +264,8 @@
             Margin = new Padding(2);
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Start";
+            Text = "Welcome";
+            FormClosing += LoginForm_FormClosing;
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();

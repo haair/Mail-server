@@ -75,7 +75,7 @@ namespace Client_Form
                             {
                                 string selectedFolder = folderDialog.SelectedPath;
                                 File.WriteAllBytes(selectedFolder + $"\\{att.fileName}", att.data);
-                                MessageBox.Show("Tải xuổng thành công");
+                                MessageBox.Show("Tải xuống thành công");
                             }
                         }
                     });

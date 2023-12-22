@@ -9,9 +9,9 @@ namespace Server_Form
     {
         private static readonly int PORT = 7749;
         private static TcpListener? listener;
-        private static readonly IPAddress ip = IPAddress.Parse("127.0.0.1");
+        private static readonly IPAddress ip = IPAddress.Parse("26.133.94.211");
         public static MainForm? form;
-        private static readonly string connectionString = "Data Source=HAAIR;Initial Catalog=mail_server;User ID=haair;Password=12345;MultipleActiveResultSets=True";
+        private static readonly string connectionString = "Data Source=HAAIR;Initial Catalog=mail_server;User ID=haair;Password=4869;MultipleActiveResultSets=True";
 
         public static void Start()
         {
@@ -63,39 +63,40 @@ namespace Server_Form
                             break;
                         case 1:
                             string username = mess.listString[0];
-                            if (CheckAccount(mess.ReadString(), mess.ReadString()))
+                            if (IsUserExist(mess.ReadString(), mess.ReadString()))
                             {
                                 var arr = GetInfoByUsername(username);
-                                HInfo info = new HInfo(arr[0], arr[1], int.Parse(arr[2]));
-                                HMessage? message = new()
+                                HInfo info = new(arr[0], arr[1], int.Parse(arr[2]));
+                                HMessage? message1 = new()
                                 {
                                     id = 1,
                                     info = info
                                 };
-                                SendMessage(message, writer);
+                                SendMessage(message1, writer);
                                 form?.AddMessage(mess.listString[0] + " login successful!");
                             }
                             else
                             {
+                                SendMessage(new HMessage() { id = -1 }, writer);
                                 form?.AddMessage(mess.listString[0] + " login unsuccessful!");
                             }
                             break;
                         case 2:
                             var lMail = GetListMessageByMailboxID(mess.ReadInt());
-                            HMessage? sms = new()
+                            HMessage? message2 = new()
                             {
                                 id = 2,
                                 listMail = lMail
                             };
-                            SendMessage(sms, writer);
+                            SendMessage(message2, writer);
                             break;
                         case 3:
-                            HMessage? sms1 = new()
+                            HMessage? message3 = new()
                             {
                                 id = 3,
                             };
-                            sms1.WriteString("Hello world");
-                            SendMessage(sms1, writer);
+                            message3.WriteString("Hello world");
+                            SendMessage(message3, writer);
                             break;
                         case 4:
                             HEmail? email = mess.listMail.First();
@@ -103,20 +104,38 @@ namespace Server_Form
                             int rs = CheckEmailAddress(address);
                             if (rs != -1)
                             {
-                                AddEMail(email);
+                                AddEmail(email);
                                 email.mailboxID = rs;
-                                AddEMail(email);
-                                HMessage hMessage1 = new() { id = 4, };
-                                SendMessage(hMessage1, writer);
+                                AddEmail(email);
+                                HMessage message4 = new() { id = 4, };
+                                SendMessage(message4, writer);
                                 form?.AddMessage("add ok");
                                 break;
                             }
-                            HMessage hMessage = new() { id = -4, };
-                            SendMessage(hMessage, writer);
+                            HMessage message5 = new() { id = -4, };
+                            SendMessage(message5, writer);
                             break;
                         case 5:
                             var messID = mess.ReadInt();
                             RemoveMailIntoBin(messID);
+                            break;
+                        case 6:
+                            var messID1 = mess.ReadInt();
+                            RemoveMessage(messID1);
+                            break;
+                        case 7:
+                            HRegisterInfo registerInfo = mess.registerInfo;
+                            HMessage message6 = new();
+                            if (IsNotRegister(registerInfo.username, registerInfo.emailAddress))
+                            {
+                                int id = AddUser(registerInfo.username, registerInfo.password, registerInfo.fullName, registerInfo.emailAddress);
+                                AddMailbox(id, registerInfo.fullName);
+                                message6.id = 7;
+                                HServer.SendMessage(message6, writer);
+                                break;
+                            }
+                            message6.id = -7;
+                            HServer.SendMessage(message6, writer);
                             break;
                     }
                 }
@@ -124,14 +143,105 @@ namespace Server_Form
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                //clients.Remove(clientInfo);
                 stream.Close();
                 client.Close();
                 form?.AddMessage("Client disconnect!");
             }
         }
 
-        private static bool CheckAccount(string username, string password)
+        private static int AddUser(string username, string password, string fullName, string emailAddress)
+        {
+            try
+            {
+                SqlConnection cnn;
+                int new_id;
+
+                cnn = new SqlConnection(connectionString);
+                cnn.Open();
+
+                SqlCommand sqlCommand;
+
+                string sqlstr1 = $"INSERT INTO MailUser (username, password, fullName, emailAddress) VALUES ('{username}', '{password}', '{fullName}', '{emailAddress}') SELECT SCOPE_IDENTITY()";
+
+                sqlCommand = new SqlCommand(sqlstr1, cnn);
+                var rs = sqlCommand.ExecuteReader();
+
+                if (rs.Read())
+                {
+                    new_id = (int)rs.GetDecimal(0);
+                    form?.AddMessage("Add user ok!");
+                    return new_id;
+                }
+                return -1;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return -1;
+            }
+        }
+
+        private static void AddMailbox(int userID, string fullName)
+        {
+            try
+            {
+                SqlConnection cnn;
+
+
+                cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                SqlCommand sqlCommand;
+                string sqlstr1 = $"INSERT INTO Mailbox (userID, mailboxName) VALUES ({userID}, '{fullName}')";
+
+                sqlCommand = new SqlCommand(sqlstr1, cnn);
+                int rs = sqlCommand.ExecuteNonQuery();
+                if (rs == 1)
+                {
+                    form?.AddMessage("Add mailbox ok!");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private static bool IsNotRegister(string username, string emailAddress)
+        {
+            try
+            {
+                SqlConnection cnn;
+
+                cnn = new SqlConnection(connectionString);
+                cnn.Open();
+
+                SqlCommand sqlCommand;
+                SqlDataReader reader;
+
+                string sqlstr = $"SELECT * FROM MailUser WHERE username = '{username}' OR emailAddress = '{emailAddress}'";
+
+                sqlCommand = new SqlCommand(sqlstr, cnn);
+                reader = sqlCommand.ExecuteReader();
+                bool flag = reader.Read();
+
+                if (flag)
+                {
+                    cnn.Close();
+                    return false;
+                }
+                cnn.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return true;
+            }
+        }
+
+        private static bool IsUserExist(string username, string password)
         {
             try
             {
@@ -188,7 +298,7 @@ namespace Server_Form
             return -1;
         }
 
-        private static void AddEMail(HEmail hEmail)
+        private static void AddEmail(HEmail hEmail)
         {
             try
             {
@@ -219,11 +329,11 @@ namespace Server_Form
                     {
                         if (i == num_attachment - 1)
                         {
-                            sqlstr2 += $"({new_id}, '{hEmail.attachments.ElementAt(i).fileName}')";
+                            sqlstr2 += $"({new_id}, N'{hEmail.attachments.ElementAt(i).fileName}')";
                         }
                         else
                         {
-                            sqlstr2 += $"({new_id}, '{hEmail.attachments.ElementAt(i).fileName}'), ";
+                            sqlstr2 += $"({new_id}, N'{hEmail.attachments.ElementAt(i).fileName}'), ";
                         }
 
                         string desPath = $"data\\{hEmail.mailboxID}\\{new_id}\\{hEmail.attachments.ElementAt(i).fileName}";
@@ -251,6 +361,19 @@ namespace Server_Form
             if (result != 0)
             {
                 form?.AddMessage("Update successfully!");
+            }
+        }
+
+        private static void RemoveMessage(int messageID)
+        {
+            SqlConnection connection = new(connectionString);
+            connection.Open();
+            string sql = $"DELETE FROM MailMessage WHERE messageID = {messageID}";
+            SqlCommand command = new(sql, connection);
+            var result = command.ExecuteNonQuery();
+            if (result != 0)
+            {
+                form?.AddMessage("Delete successfully!");
             }
         }
 

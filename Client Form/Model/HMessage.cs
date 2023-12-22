@@ -6,6 +6,7 @@ namespace Client_Form
     {
         public int id;
         public HInfo info;
+        public HRegisterInfo registerInfo;
         public string[] listString = new string[50];
         public int[] listInt = new int[50];
         public List<HEmail> listMail = new();

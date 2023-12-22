@@ -1,4 +1,4 @@
-using Client_Form.Model;
+﻿using Client_Form.Model;
 
 namespace Client_Form
 {
@@ -51,13 +51,14 @@ namespace Client_Form
             {
                 tbl_hop_thu_den.Invoke(new MethodInvoker(delegate
                 {
-                    tbl_hop_thu_den.Rows.Clear();
+                    ClearTalbe(tbl_hop_thu_den);
                     foreach (HEmail m in Utils.mailNhan)
                     {
                         tbl_hop_thu_den.Rows.Add(m.messageID, m.sender, m.subject, Utils.GetTimeAgo(m.timestamp));
                     }
                 }
                 ));
+
                 tbl_thu_da_gui.Invoke(new MethodInvoker(delegate
                 {
                     tbl_thu_da_gui.Rows.Clear();
@@ -67,6 +68,7 @@ namespace Client_Form
                     }
                 }
                ));
+
                 tbl_thung_rac.Invoke(new MethodInvoker(delegate
                 {
                     tbl_thung_rac.Rows.Clear();
@@ -84,9 +86,9 @@ namespace Client_Form
 
         }
 
-        public void ClearTalbe()
+        public void ClearTalbe(DataGridView dataGridView)
         {
-            tbl_hop_thu_den.Rows.Clear();
+            dataGridView.Rows.Clear();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -105,7 +107,7 @@ namespace Client_Form
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            HClient.Disconnect();
+            //HClient.Disconnect();
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -149,14 +151,20 @@ namespace Client_Form
         private void button3_Click(object sender, EventArgs e)
         {
             DataGridView gridView;
+            bool remove = false;
             var tab_index = tabControl1.SelectedIndex;
             if (tab_index == 0)
             {
                 gridView = tbl_hop_thu_den;
             }
-            else
+            else if (tab_index == 1)
             {
                 gridView = tbl_thu_da_gui;
+            }
+            else
+            {
+                gridView = tbl_thung_rac;
+                remove = true;
             }
             int row_index = gridView.CurrentCell.RowIndex;
             if (row_index < 0)
@@ -166,10 +174,60 @@ namespace Client_Form
             int messageID = int.Parse(gridView.Rows[row_index].Cells[0].Value.ToString());
             HMessage hMessage = new()
             {
-                id = 5
             };
             hMessage.WriteInt(messageID);
+            if (remove)
+            {
+                hMessage.id = 6;
+                DialogResult dialogResult = MessageBox.Show("Bạn có muốn xóa thư này không?", "Xóa", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    HClient.SendMessage(hMessage);
+                    gridView.Rows.RemoveAt(row_index);
+                    return;
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            hMessage.id = 5;
             HClient.SendMessage(hMessage);
+            gridView.Rows.RemoveAt(row_index);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            tbl_hop_thu_den.Rows.Clear();
+        }
+
+        private void tabControl1_TabIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 3)
+            {
+                btn_restore.Visible = true;
+            }
+        }
+
+        private void tbl_thung_rac_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = tbl_thung_rac.CurrentCell.RowIndex;
+            int id = int.Parse(tbl_thung_rac.Rows[index].Cells[0].Value.ToString());
+
+            foreach (var mail in Utils.mailBin)
+            {
+                if (mail.messageID == id)
+                {
+                    var form = new ViewEmailForm(mail);
+                    form.Show();
+                    return;
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
