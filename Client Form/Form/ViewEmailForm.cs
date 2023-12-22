@@ -10,7 +10,7 @@ namespace Client_Form
             InitializeComponent();
             _mail = mail;
             Text = mail.subject;
-            txtSender.Text = "Gửi từ: " + mail.sender;
+            label_from.Text = $"{mail.sender.fullName} ({mail.sender.emailAddress})";
             txtSubject.Text = mail.subject;
             txtTime.Text = "Thời gian: " + Utils.GetTimeAgo1(mail.timestamp) + " (" + Utils.GetTimeAgo2(mail.timestamp) + ")";
             txtContent.Text = mail.body;

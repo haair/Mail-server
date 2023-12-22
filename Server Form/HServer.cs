@@ -65,8 +65,8 @@ namespace Server_Form
                             string username = mess.listString[0];
                             if (IsUserExist(mess.ReadString(), mess.ReadString()))
                             {
-                                var arr = GetInfoByUsername(username);
-                                HInfo info = new(arr[0], arr[1], int.Parse(arr[2]));
+                                var arr_info = GetInfoByUsername(username);
+                                HInfo info = new(arr_info[0], arr_info[1], int.Parse(arr_info[2]), arr_info[3]);
                                 HMessage? message1 = new()
                                 {
                                     id = 1,
@@ -100,7 +100,7 @@ namespace Server_Form
                             break;
                         case 4:
                             HEmail? email = mess.listMail.First();
-                            string address = email.recipient;
+                            string address = email.recipient.emailAddress;
                             int rs = CheckEmailAddress(address);
                             if (rs != -1)
                             {
@@ -117,7 +117,7 @@ namespace Server_Form
                             break;
                         case 5:
                             var messID = mess.ReadInt();
-                            RemoveMailIntoBin(messID);
+                            SetMailStatus(messID, -1);
                             break;
                         case 6:
                             var messID1 = mess.ReadInt();
@@ -137,12 +137,36 @@ namespace Server_Form
                             message6.id = -7;
                             HServer.SendMessage(message6, writer);
                             break;
+                        case 8:
+                            var messID2 = mess.ReadInt();
+                            SetMailStatus(messID2, 0);
+                            SendMessage(new HMessage()
+                            {
+                                id = 8
+                            }, writer);
+                            break;
+                        case 9:
+                            var messID3 = mess.ReadInt();
+                            var status = mess.ReadInt();
+                            if (status == 0)
+                            {
+                                SetMailStatus(messID3, 1);
+                            }
+                            else
+                            {
+                                SetMailStatus(messID3, 0);
+                            }
+                            SendMessage(new HMessage()
+                            {
+                                id = 9
+                            }, writer);
+                            break;
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                //MessageBox.Show(ex.Message);
                 stream.Close();
                 client.Close();
                 form?.AddMessage("Client disconnect!");
@@ -253,7 +277,7 @@ namespace Server_Form
                 SqlCommand sqlCommand;
                 SqlDataReader reader;
 
-                string sqlstr = $"SELECT * FROM MailUser WHERE username = '{username}' AND password = '{password}'";
+                string sqlstr = $"SELECT * FROM MailUser WHERE username = '{username}' AND password = '{password}' OR emailAddress = '{username}' AND password = '{password}'";
 
                 sqlCommand = new SqlCommand(sqlstr, cnn);
                 reader = sqlCommand.ExecuteReader();
@@ -311,7 +335,7 @@ namespace Server_Form
                 SqlDataReader reader;
                 int new_id = -1;
 
-                string sqlstr1 = $"INSERT INTO MailMessage (mailboxID, sender, recipient, subject, body, timestamp, status) VALUES ({hEmail.mailboxID}, '{hEmail.sender}', '{hEmail.recipient}', '{hEmail.subject}', '{hEmail.body}', {hEmail.timestamp}, 0) SELECT SCOPE_IDENTITY()";
+                string sqlstr1 = $"INSERT INTO MailMessage (mailboxID, sender, recipient, subject, body, timestamp, status) VALUES ({hEmail.mailboxID}, '{hEmail.sender.emailAddress}', '{hEmail.recipient.emailAddress}', '{hEmail.subject}', '{hEmail.body}', {hEmail.timestamp}, 0) SELECT SCOPE_IDENTITY()";
 
                 sqlCommand = new SqlCommand(sqlstr1, cnn);
                 reader = sqlCommand.ExecuteReader();
@@ -351,11 +375,11 @@ namespace Server_Form
             }
         }
 
-        private static void RemoveMailIntoBin(int messageID)
+        private static void SetMailStatus(int messageID, int status)
         {
             SqlConnection connection = new(connectionString);
             connection.Open();
-            string sql = $"UPDATE MailMessage SET status = -1 WHERE messageID = {messageID}";
+            string sql = $"UPDATE MailMessage SET status = {status} WHERE messageID = {messageID}";
             SqlCommand command = new(sql, connection);
             var result = command.ExecuteNonQuery();
             if (result != 0)
@@ -377,31 +401,40 @@ namespace Server_Form
             }
         }
 
-        private static string[] GetInfoByUsername(string username)
+        private static string[]? GetInfoByUsername(string username)
         {
-            SqlConnection cnn;
-
-            cnn = new SqlConnection(connectionString);
-            cnn.Open();
-
-            SqlCommand sqlCommand;
-            SqlDataReader reader;
-            string[] arr = new string[3];
-
-            string sqlstr = $"SELECT u.username, u.emailAddress, b.mailboxID FROM MailUser u INNER JOIN Mailbox b ON b.userID = u.userID WHERE u.username = '{username}'";
-
-            sqlCommand = new SqlCommand(sqlstr, cnn);
-            reader = sqlCommand.ExecuteReader();
-            bool flag = reader.Read();
-
-            if (flag)
+            try
             {
-                arr[0] = reader.GetString(0);
-                arr[1] = reader.GetString(1);
-                arr[2] = reader.GetInt32(2).ToString();
+                SqlConnection cnn;
+
+                cnn = new SqlConnection(connectionString);
+                cnn.Open();
+
+                SqlCommand sqlCommand;
+                SqlDataReader reader;
+                string[] arr = new string[4];
+
+                string sqlstr = $"SELECT u.username, u.emailAddress, b.mailboxID, u.fullName FROM MailUser u INNER JOIN Mailbox b ON b.userID = u.userID WHERE u.username = '{username}' OR u.emailAddress = '{username}'";
+
+                sqlCommand = new SqlCommand(sqlstr, cnn);
+                reader = sqlCommand.ExecuteReader();
+                bool flag = reader.Read();
+
+                if (flag)
+                {
+                    arr[0] = reader.GetString(0);
+                    arr[1] = reader.GetString(1);
+                    arr[2] = reader.GetInt32(2).ToString();
+                    arr[3] = reader.GetString(3);
+                }
+                cnn.Close();
+                return arr;
             }
-            cnn.Close();
-            return arr;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
         }
 
         private static List<HEmail> GetListMessageByMailboxID(int mailboxID)
@@ -417,26 +450,41 @@ namespace Server_Form
 
                 while (reader.Read())
                 {
+                    HEmail message = new();
+
                     var messageID = reader.GetInt32(0);
                     var mBoxID = reader.GetInt32(1);
                     var sender = reader.GetString(2);
+
+                    string sql1 = $"SELECT fullName FROM MailUser WHERE emailAddress = '{sender}'";
+                    SqlCommand command1 = new(sql1, connection);
+                    SqlDataReader reader1 = command1.ExecuteReader();
+                    if (reader1.Read())
+                    {
+                        message.sender = new HSender(reader1.GetString(0), sender);
+                    }
+                    reader1.Close();
+
                     var recipient = reader.GetString(3);
+                    string sql2 = $"SELECT fullName FROM MailUser WHERE emailAddress = '{recipient}'";
+                    SqlCommand command2 = new(sql2, connection);
+                    SqlDataReader reader2 = command2.ExecuteReader();
+                    if (reader2.Read())
+                    {
+                        message.recipient = new HRecipient(reader2.GetString(0), recipient);
+                    }
+                    reader2.Close();
                     var subject = reader.GetString(4);
                     var body = reader.GetString(5);
                     var timestamp = reader.GetInt32(6);
                     var status = reader.GetInt32(7);
 
-                    HEmail message = new()
-                    {
-                        messageID = messageID,
-                        mailboxID = mBoxID,
-                        sender = sender,
-                        recipient = recipient,
-                        subject = subject,
-                        body = body,
-                        timestamp = timestamp,
-                        status = status,
-                    };
+                    message.messageID = messageID;
+                    message.mailboxID = mailboxID;
+                    message.subject = subject;
+                    message.body = body;
+                    message.timestamp = timestamp;
+                    message.status = status;
                     lMail.Add(message);
                 }
 

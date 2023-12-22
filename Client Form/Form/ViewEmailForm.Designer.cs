@@ -38,6 +38,7 @@
             Column1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             lb_tep_dinh_kem = new Label();
+            label_from = new Label();
             ((System.ComponentModel.ISupportInitialize)tbl_tep_dinh_kem).BeginInit();
             SuspendLayout();
             // 
@@ -65,11 +66,11 @@
             // 
             txtSender.AutoSize = true;
             txtSender.Location = new Point(11, 7);
-            txtSender.Margin = new Padding(3, 0, 3, 8);
+            txtSender.Margin = new Padding(3, 0, 0, 8);
             txtSender.Name = "txtSender";
-            txtSender.Size = new Size(38, 15);
+            txtSender.Size = new Size(42, 15);
             txtSender.TabIndex = 4;
-            txtSender.Text = "label2";
+            txtSender.Text = "Gửi từ:";
             // 
             // txtTime
             // 
@@ -132,6 +133,17 @@
             lb_tep_dinh_kem.TabIndex = 7;
             lb_tep_dinh_kem.Text = "Tệp đính kèm:";
             // 
+            // label_from
+            // 
+            label_from.AutoSize = true;
+            label_from.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label_from.Location = new Point(53, 7);
+            label_from.Margin = new Padding(0, 0, 3, 0);
+            label_from.Name = "label_from";
+            label_from.Size = new Size(40, 15);
+            label_from.TabIndex = 8;
+            label_from.Text = "label1";
+            // 
             // ViewEmailForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -139,6 +151,7 @@
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             ClientSize = new Size(763, 611);
+            Controls.Add(label_from);
             Controls.Add(lb_tep_dinh_kem);
             Controls.Add(tbl_tep_dinh_kem);
             Controls.Add(txtTime);
@@ -165,5 +178,6 @@
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;
+        private Label label_from;
     }
 }

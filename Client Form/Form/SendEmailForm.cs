@@ -33,7 +33,7 @@ namespace Client_Form
                     attachments.Add(attachment);
                 }
             }
-            HEmail email = new(-1, Utils.info.mailBox, Utils.info.emailAddress, txtNguoiNhan.Text, txtTieuDe.Text, txtNoiDung.Text, Utils.CurrentTimeSeconds(), 0, attachments);
+            HEmail email = new(-1, Utils.info.mailBox, new HSender(string.Empty, Utils.info.emailAddress), new HRecipient(string.Empty, txtNguoiNhan.Text), txtTieuDe.Text, txtNoiDung.Text, Utils.CurrentTimeSeconds(), 0, attachments);
             sms.AddEmail(email);
             HClient.SendMessage(sms);
         }

@@ -112,22 +112,22 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(107, 98);
+            label2.Location = new Point(107, 97);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(57, 15);
+            label2.Size = new Size(60, 15);
             label2.TabIndex = 4;
-            label2.Text = "Mật khẩu";
+            label2.Text = "Mật khẩu:";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(107, 58);
+            label1.Location = new Point(73, 61);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(57, 15);
+            label1.Size = new Size(94, 15);
             label1.TabIndex = 5;
-            label1.Text = "Tài khoản";
+            label1.Text = "Tài khoản/Email:";
             label1.Click += label1_Click;
             // 
             // tabPage2

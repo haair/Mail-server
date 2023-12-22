@@ -26,6 +26,7 @@ namespace Client_Form.Model
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                return;
             }
         }
 
@@ -46,6 +47,23 @@ namespace Client_Form.Model
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        public static void SendRequestMailbox()
+        {
+            try
+            {
+                HMessage message = new()
+                {
+                    id = 2
+                };
+                message.WriteInt(Utils.info.mailBox);
+                HClient.SendMessage(message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -76,11 +94,11 @@ namespace Client_Form.Model
 
                             foreach (var email in Utils.allEmail)
                             {
-                                if (email.sender == Utils.info.emailAddress && email.status == 0)
+                                if (email.sender.emailAddress == Utils.info.emailAddress && email.status == 0 || email.sender.emailAddress == Utils.info.emailAddress && email.status == 1)
                                 {
                                     Utils.mailGui.Add(email);
                                 }
-                                else if (email.sender != Utils.info.emailAddress && email.status == 0)
+                                else if (email.sender.emailAddress != Utils.info.emailAddress && email.status == 0 || email.sender.emailAddress != Utils.info.emailAddress && email.status == 1)
                                 {
                                     Utils.mailNhan.Add(email);
                                 }
@@ -105,6 +123,12 @@ namespace Client_Form.Model
                             break;
                         case 7:
                             MessageBox.Show("Đăng ký thành công!");
+                            break;
+                        case 8:
+                            SendRequestMailbox();
+                            break;
+                        case 9:
+                            SendRequestMailbox();
                             break;
                     }
                 }

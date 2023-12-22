@@ -11,7 +11,7 @@ namespace Client_Form
             Utils.mainForm = this;
             SetHello();
             HClient.Connect();
-            SendRequestMailbox();
+            HClient.SendRequestMailbox();
         }
         private void label1_Click(object sender, EventArgs e)
         {
@@ -20,29 +20,14 @@ namespace Client_Form
 
         private void button4_Click(object sender, EventArgs e)
         {
-            SendRequestMailbox();
+            HClient.SendRequestMailbox();
         }
 
-        private void SendRequestMailbox()
-        {
-            try
-            {
-                HMessage message = new()
-                {
-                    id = 2
-                };
-                message.WriteInt(Utils.info.mailBox);
-                HClient.SendMessage(message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
+
 
         public void SetHello()
         {
-            label2.Text = "Hello, " + Utils.info.username;
+            label2.Text = "Hello, " + Utils.info.fullName;
         }
 
         public void AddRow()
@@ -54,7 +39,14 @@ namespace Client_Form
                     ClearTalbe(tbl_hop_thu_den);
                     foreach (HEmail m in Utils.mailNhan)
                     {
-                        tbl_hop_thu_den.Rows.Add(m.messageID, m.sender, m.subject, Utils.GetTimeAgo(m.timestamp));
+                        tbl_hop_thu_den.Rows.Add(m.messageID, m.sender.fullName, m.subject, Utils.GetTimeAgo(m.timestamp), m.status);
+                    }
+                    foreach (DataGridViewRow row in tbl_hop_thu_den.Rows)
+                    {
+                        if ((int)row.Cells[4].Value == 0)
+                        {
+                            row.DefaultCellStyle.Font = new Font(Font, FontStyle.Bold);
+                        }
                     }
                 }
                 ));
@@ -64,7 +56,7 @@ namespace Client_Form
                     tbl_thu_da_gui.Rows.Clear();
                     foreach (HEmail m in Utils.mailGui)
                     {
-                        tbl_thu_da_gui.Rows.Add(m.messageID, m.recipient, m.subject, Utils.GetTimeAgo(m.timestamp));
+                        tbl_thu_da_gui.Rows.Add(m.messageID, m.recipient.fullName, m.subject, Utils.GetTimeAgo(m.timestamp));
                     }
                 }
                ));
@@ -74,7 +66,7 @@ namespace Client_Form
                     tbl_thung_rac.Rows.Clear();
                     foreach (HEmail m in Utils.mailBin)
                     {
-                        tbl_thung_rac.Rows.Add(m.messageID, m.sender, m.recipient, m.subject, Utils.GetTimeAgo(m.timestamp));
+                        tbl_thung_rac.Rows.Add(m.messageID, m.sender.fullName == Utils.info.fullName ? "Tôi" : m.sender.fullName, m.recipient.fullName == Utils.info.fullName ? "Tôi" : m.recipient.fullName, m.subject, Utils.GetTimeAgo(m.timestamp));
                     }
                 }
                ));
@@ -89,20 +81,6 @@ namespace Client_Form
         public void ClearTalbe(DataGridView dataGridView)
         {
             dataGridView.Rows.Clear();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -172,9 +150,7 @@ namespace Client_Form
                 return;
             }
             int messageID = int.Parse(gridView.Rows[row_index].Cells[0].Value.ToString());
-            HMessage hMessage = new()
-            {
-            };
+            HMessage hMessage = new();
             hMessage.WriteInt(messageID);
             if (remove)
             {
@@ -194,19 +170,7 @@ namespace Client_Form
             hMessage.id = 5;
             HClient.SendMessage(hMessage);
             gridView.Rows.RemoveAt(row_index);
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            tbl_hop_thu_den.Rows.Clear();
-        }
-
-        private void tabControl1_TabIndexChanged(object sender, EventArgs e)
-        {
-            if (tabControl1.SelectedIndex == 3)
-            {
-                btn_restore.Visible = true;
-            }
+            HClient.SendRequestMailbox();
         }
 
         private void tbl_thung_rac_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -228,6 +192,81 @@ namespace Client_Form
         private void button2_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btn_restore_Click(object sender, EventArgs e)
+        {
+            int row_sel_index = tbl_thung_rac.CurrentCell.RowIndex;
+            if (row_sel_index > -1)
+            {
+                int id_mail_sel = int.Parse(tbl_thung_rac.Rows[row_sel_index].Cells[0].Value.ToString());
+                HMessage hMessage = new()
+                {
+                    id = 8
+                };
+                hMessage.WriteInt(id_mail_sel);
+                HClient.SendMessage(hMessage);
+            }
+        }
+
+        private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 2)
+            {
+                btn_restore.Enabled = true;
+            }
+            else if (tabControl1.SelectedIndex == 0)
+            {
+                button5.Enabled = true;
+            }
+            else
+            {
+                btn_restore.Enabled = false;
+                button5.Enabled = false;
+            }
+        }
+
+        private void tbl_hop_thu_den_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int currentMouseOverRow = tbl_hop_thu_den.HitTest(e.X, e.Y).RowIndex;
+
+                if (currentMouseOverRow >= 0)
+                {
+                    //ToolStripMenuItem markIsRead = new("Đánh dấu là đã đọc");
+                    //markIsRead.MouseDown += new MouseEventHandler(MarkAsRead);
+                    //contextMenuStrip1.Items.Add(markIsRead);
+                    contextMenuStrip1.Show(tbl_hop_thu_den, new Point(e.X, e.Y));
+                }
+            }
+        }
+
+        private void MarkAsRead(object sender, MouseEventArgs e)
+        {
+            int currentMouseOverRow = tbl_hop_thu_den.HitTest(e.X, e.Y).RowIndex;
+            MessageBox.Show(currentMouseOverRow.ToString());
+        }
+
+        private void đánhDấuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            int index = tbl_hop_thu_den.CurrentCell.RowIndex;
+            int id = int.Parse(tbl_hop_thu_den.Rows[index].Cells[0].Value.ToString());
+            int status = int.Parse(tbl_hop_thu_den.Rows[index].Cells[4].Value.ToString());
+            if (index > -1)
+            {
+                HMessage message = new()
+                {
+                    id = 9
+                };
+                message.WriteInt(id);
+                message.WriteInt(status);
+                HClient.SendMessage(message);
+            }
         }
     }
 }
