@@ -1,4 +1,6 @@
-﻿namespace Client_Form.Model
+﻿using Newtonsoft.Json;
+
+namespace Client_Form.Model
 {
     public class Utils
     {
@@ -11,6 +13,8 @@
         public static List<HEmail> mailNhan = new();
         public static List<HEmail> mailGui = new();
         public static List<HEmail> mailBin = new();
+
+        public static List<string>? recentContact = new();
 
         public static string GetTimeAgo(int second)
         {
@@ -72,6 +76,29 @@
             int currentEpochTime = (int)elapsedTime.TotalSeconds;
 
             return currentEpochTime;
+        }
+
+        public static void LoadListRecentContact()
+        {
+            recentContact = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText("recent\\contact.json"));
+        }
+
+        public static void SaveListRecentContact()
+        {
+            string json = JsonConvert.SerializeObject(recentContact);
+            File.WriteAllText("recent\\contact.json", json);
+        }
+
+        public static void AddListRecentContact(string contact)
+        {
+            foreach (string ct in recentContact)
+            {
+                if (ct == contact)
+                {
+                    return;
+                }
+            }
+            recentContact.Add(contact);
         }
     }
 }

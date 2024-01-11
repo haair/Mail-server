@@ -39,45 +39,49 @@
             Column2 = new DataGridViewTextBoxColumn();
             lb_tep_dinh_kem = new Label();
             label_from = new Label();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)tbl_tep_dinh_kem).BeginInit();
             SuspendLayout();
             // 
             // txtContent
             // 
-            txtContent.Location = new Point(10, 92);
-            txtContent.Margin = new Padding(3, 2, 10, 9);
+            txtContent.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+            txtContent.Location = new Point(11, 123);
+            txtContent.Margin = new Padding(3, 3, 11, 12);
             txtContent.Name = "txtContent";
             txtContent.ReadOnly = true;
-            txtContent.Size = new Size(619, 318);
+            txtContent.Size = new Size(930, 483);
             txtContent.TabIndex = 1;
             txtContent.Text = resources.GetString("txtContent.Text");
             // 
             // txtSubject
             // 
             txtSubject.AutoSize = true;
-            txtSubject.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txtSubject.Location = new Point(10, 74);
+            txtSubject.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            txtSubject.Location = new Point(11, 89);
             txtSubject.Name = "txtSubject";
-            txtSubject.Size = new Size(40, 15);
+            txtSubject.Size = new Size(79, 31);
             txtSubject.TabIndex = 2;
             txtSubject.Text = "label1";
             // 
             // txtSender
             // 
             txtSender.AutoSize = true;
-            txtSender.Location = new Point(11, 7);
-            txtSender.Margin = new Padding(3, 0, 0, 8);
+            txtSender.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+            txtSender.Location = new Point(13, 9);
+            txtSender.Margin = new Padding(3, 0, 0, 11);
             txtSender.Name = "txtSender";
-            txtSender.Size = new Size(42, 15);
+            txtSender.Size = new Size(61, 23);
             txtSender.TabIndex = 4;
             txtSender.Text = "Gửi từ:";
             // 
             // txtTime
             // 
             txtTime.AutoSize = true;
-            txtTime.Location = new Point(10, 29);
+            txtTime.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+            txtTime.Location = new Point(13, 34);
             txtTime.Name = "txtTime";
-            txtTime.Size = new Size(38, 15);
+            txtTime.Size = new Size(55, 23);
             txtTime.TabIndex = 5;
             txtTime.Text = "label1";
             // 
@@ -87,14 +91,14 @@
             tbl_tep_dinh_kem.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tbl_tep_dinh_kem.ColumnHeadersVisible = false;
             tbl_tep_dinh_kem.Columns.AddRange(new DataGridViewColumn[] { Column3, Column1, Column2 });
-            tbl_tep_dinh_kem.Location = new Point(11, 442);
-            tbl_tep_dinh_kem.Margin = new Padding(3, 2, 10, 9);
+            tbl_tep_dinh_kem.Location = new Point(12, 641);
+            tbl_tep_dinh_kem.Margin = new Padding(3, 3, 11, 12);
             tbl_tep_dinh_kem.Name = "tbl_tep_dinh_kem";
             tbl_tep_dinh_kem.ReadOnly = true;
             tbl_tep_dinh_kem.RowHeadersVisible = false;
             tbl_tep_dinh_kem.RowHeadersWidth = 51;
             tbl_tep_dinh_kem.RowTemplate.Height = 29;
-            tbl_tep_dinh_kem.Size = new Size(618, 141);
+            tbl_tep_dinh_kem.Size = new Size(928, 188);
             tbl_tep_dinh_kem.TabIndex = 6;
             tbl_tep_dinh_kem.CellClick += tbl_tep_dinh_kem_CellClick;
             // 
@@ -127,30 +131,40 @@
             // 
             lb_tep_dinh_kem.AutoSize = true;
             lb_tep_dinh_kem.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            lb_tep_dinh_kem.Location = new Point(11, 424);
+            lb_tep_dinh_kem.Location = new Point(11, 618);
             lb_tep_dinh_kem.Name = "lb_tep_dinh_kem";
-            lb_tep_dinh_kem.Size = new Size(87, 15);
+            lb_tep_dinh_kem.Size = new Size(108, 20);
             lb_tep_dinh_kem.TabIndex = 7;
             lb_tep_dinh_kem.Text = "Tệp đính kèm:";
             // 
             // label_from
             // 
             label_from.AutoSize = true;
-            label_from.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label_from.Location = new Point(53, 7);
+            label_from.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label_from.Location = new Point(74, 9);
             label_from.Margin = new Padding(0, 0, 3, 0);
             label_from.Name = "label_from";
-            label_from.Size = new Size(40, 15);
+            label_from.Size = new Size(59, 23);
             label_from.TabIndex = 8;
             label_from.Text = "label1";
             // 
+            // label1
+            // 
+            label1.BorderStyle = BorderStyle.Fixed3D;
+            label1.Location = new Point(12, 74);
+            label1.Name = "label1";
+            label1.Size = new Size(930, 2);
+            label1.TabIndex = 9;
+            label1.Click += label1_Click;
+            // 
             // ViewEmailForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            ClientSize = new Size(763, 611);
+            ClientSize = new Size(1036, 858);
+            Controls.Add(label1);
             Controls.Add(label_from);
             Controls.Add(lb_tep_dinh_kem);
             Controls.Add(tbl_tep_dinh_kem);
@@ -158,7 +172,6 @@
             Controls.Add(txtSender);
             Controls.Add(txtSubject);
             Controls.Add(txtContent);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "ViewEmailForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Email";
@@ -179,5 +192,6 @@
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;
         private Label label_from;
+        private Label label1;
     }
 }

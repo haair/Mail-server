@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
-            txtNguoiNhan = new TextBox();
+            txtNguoiNhan1 = new TextBox();
             label2 = new Label();
             txtTieuDe = new TextBox();
             label3 = new Label();
@@ -42,71 +42,74 @@
             Column3 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             lb_tep_dinh_kem = new Label();
+            txtNguoiNhan = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)table_attachment).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(10, 12);
-            label1.Margin = new Padding(3, 9, 3, 0);
+            label1.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(12, 28);
+            label1.Margin = new Padding(3, 12, 3, 0);
             label1.Name = "label1";
-            label1.Size = new Size(75, 15);
+            label1.Size = new Size(110, 23);
             label1.TabIndex = 0;
             label1.Text = "Người nhận:";
             // 
-            // txtNguoiNhan
+            // txtNguoiNhan1
             // 
-            txtNguoiNhan.Location = new Point(100, 9);
-            txtNguoiNhan.Margin = new Padding(3, 9, 18, 2);
-            txtNguoiNhan.Name = "txtNguoiNhan";
-            txtNguoiNhan.Size = new Size(450, 23);
-            txtNguoiNhan.TabIndex = 1;
+            txtNguoiNhan1.Location = new Point(807, 385);
+            txtNguoiNhan1.Margin = new Padding(3, 12, 21, 3);
+            txtNguoiNhan1.Multiline = true;
+            txtNguoiNhan1.Name = "txtNguoiNhan1";
+            txtNguoiNhan1.Size = new Size(584, 40);
+            txtNguoiNhan1.TabIndex = 1;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.Location = new Point(38, 46);
+            label2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Location = new Point(47, 83);
             label2.Name = "label2";
-            label2.Size = new Size(52, 15);
+            label2.Size = new Size(74, 23);
             label2.TabIndex = 0;
             label2.Text = "Tiêu đề:";
             // 
             // txtTieuDe
             // 
-            txtTieuDe.Location = new Point(100, 44);
-            txtTieuDe.Margin = new Padding(3, 2, 18, 2);
+            txtTieuDe.Location = new Point(127, 78);
+            txtTieuDe.Margin = new Padding(3, 3, 21, 3);
+            txtTieuDe.Multiline = true;
             txtTieuDe.Name = "txtTieuDe";
-            txtTieuDe.Size = new Size(450, 23);
+            txtTieuDe.Size = new Size(585, 40);
             txtTieuDe.TabIndex = 1;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.Location = new Point(26, 78);
+            label3.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.Location = new Point(20, 138);
             label3.Name = "label3";
-            label3.Size = new Size(60, 15);
+            label3.Size = new Size(102, 25);
             label3.TabIndex = 0;
             label3.Text = "Nội dung:";
             // 
             // txtNoiDung
             // 
-            txtNoiDung.Location = new Point(10, 95);
-            txtNoiDung.Margin = new Padding(3, 2, 3, 9);
+            txtNoiDung.Location = new Point(25, 166);
+            txtNoiDung.Margin = new Padding(3, 3, 3, 12);
             txtNoiDung.Name = "txtNoiDung";
-            txtNoiDung.Size = new Size(540, 284);
+            txtNoiDung.Size = new Size(687, 377);
             txtNoiDung.TabIndex = 2;
             txtNoiDung.Text = "";
             // 
             // button1
             // 
-            button1.Location = new Point(570, 9);
-            button1.Margin = new Padding(3, 9, 10, 15);
+            button1.Location = new Point(736, 17);
+            button1.Margin = new Padding(3, 12, 11, 20);
             button1.Name = "button1";
-            button1.Size = new Size(107, 22);
+            button1.Size = new Size(122, 40);
             button1.TabIndex = 3;
             button1.Text = "Gửi";
             button1.UseVisualStyleBackColor = true;
@@ -114,10 +117,10 @@
             // 
             // button2
             // 
-            button2.Location = new Point(570, 46);
-            button2.Margin = new Padding(3, 0, 10, 2);
+            button2.Location = new Point(736, 78);
+            button2.Margin = new Padding(3, 0, 11, 3);
             button2.Name = "button2";
-            button2.Size = new Size(107, 22);
+            button2.Size = new Size(122, 40);
             button2.TabIndex = 4;
             button2.Text = "Tệp đính kèm";
             button2.UseVisualStyleBackColor = true;
@@ -129,22 +132,22 @@
             table_attachment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             table_attachment.ColumnHeadersVisible = false;
             table_attachment.Columns.AddRange(new DataGridViewColumn[] { Column1, Column3, Column2 });
-            table_attachment.Location = new Point(10, 408);
-            table_attachment.Margin = new Padding(3, 2, 3, 9);
+            table_attachment.Location = new Point(25, 581);
+            table_attachment.Margin = new Padding(3, 3, 3, 12);
             table_attachment.Name = "table_attachment";
             table_attachment.ReadOnly = true;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            table_attachment.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            table_attachment.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             table_attachment.RowHeadersVisible = false;
             table_attachment.RowHeadersWidth = 50;
             table_attachment.RowTemplate.Height = 29;
-            table_attachment.Size = new Size(539, 112);
+            table_attachment.Size = new Size(687, 149);
             table_attachment.TabIndex = 5;
             table_attachment.Visible = false;
             table_attachment.CellClick += table_attachment_CellClick;
@@ -177,21 +180,30 @@
             // lb_tep_dinh_kem
             // 
             lb_tep_dinh_kem.AutoSize = true;
-            lb_tep_dinh_kem.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            lb_tep_dinh_kem.Location = new Point(10, 391);
+            lb_tep_dinh_kem.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            lb_tep_dinh_kem.Location = new Point(25, 555);
             lb_tep_dinh_kem.Name = "lb_tep_dinh_kem";
-            lb_tep_dinh_kem.Size = new Size(87, 15);
+            lb_tep_dinh_kem.Size = new Size(126, 23);
             lb_tep_dinh_kem.TabIndex = 6;
             lb_tep_dinh_kem.Text = "Tệp đính kèm:";
             lb_tep_dinh_kem.Visible = false;
             // 
+            // txtNguoiNhan
+            // 
+            txtNguoiNhan.FormattingEnabled = true;
+            txtNguoiNhan.Location = new Point(128, 28);
+            txtNguoiNhan.Name = "txtNguoiNhan";
+            txtNguoiNhan.Size = new Size(584, 28);
+            txtNguoiNhan.TabIndex = 7;
+            // 
             // SendEmailForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            ClientSize = new Size(734, 548);
+            ClientSize = new Size(1078, 798);
+            Controls.Add(txtNguoiNhan);
             Controls.Add(lb_tep_dinh_kem);
             Controls.Add(table_attachment);
             Controls.Add(button2);
@@ -200,9 +212,8 @@
             Controls.Add(label3);
             Controls.Add(txtTieuDe);
             Controls.Add(label2);
-            Controls.Add(txtNguoiNhan);
+            Controls.Add(txtNguoiNhan1);
             Controls.Add(label1);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "SendEmailForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Thư mới";
@@ -214,7 +225,7 @@
         #endregion
 
         private Label label1;
-        private TextBox txtNguoiNhan;
+        private TextBox txtNguoiNhan1;
         private Label label2;
         private TextBox txtTieuDe;
         private Label label3;
@@ -226,5 +237,6 @@
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column2;
+        private ComboBox txtNguoiNhan;
     }
 }

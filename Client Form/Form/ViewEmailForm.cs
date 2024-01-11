@@ -59,7 +59,7 @@ namespace Client_Form
         private void tbl_tep_dinh_kem_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = tbl_tep_dinh_kem.CurrentCell.RowIndex;
-            int id = int.Parse(tbl_tep_dinh_kem.Rows[index].Cells[0].Value.ToString());
+            int id = (int)tbl_tep_dinh_kem.Rows[index].Cells[0].Value;
             var att = GetAttachmentByID(id);
             if (index != -1)
             {
@@ -67,16 +67,14 @@ namespace Client_Form
                 {
                     Thread t = new(() =>
                     {
-                        using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
-                        {
-                            DialogResult result = folderDialog.ShowDialog();
+                        using FolderBrowserDialog folderDialog = new();
+                        DialogResult result = folderDialog.ShowDialog();
 
-                            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderDialog.SelectedPath))
-                            {
-                                string selectedFolder = folderDialog.SelectedPath;
-                                File.WriteAllBytes(selectedFolder + $"\\{att.fileName}", att.data);
-                                MessageBox.Show("Tải xuống thành công");
-                            }
+                        if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderDialog.SelectedPath))
+                        {
+                            string selectedFolder = folderDialog.SelectedPath;
+                            File.WriteAllBytes(selectedFolder + $"\\{att.fileName}", att.data);
+                            MessageBox.Show("Tải xuống thành công", "Tải xuống", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                         }
                     });
 
@@ -85,6 +83,11 @@ namespace Client_Form
                     t.Join();
                 }
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

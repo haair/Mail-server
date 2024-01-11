@@ -7,6 +7,24 @@ namespace Client_Form
         public SendEmailForm()
         {
             InitializeComponent();
+            Utils.LoadListRecentContact();
+            AddRecentContact();
+        }
+
+        public void AddRecentContact()
+        {
+            if (Utils.recentContact == null)
+            {
+                return;
+            }
+            try
+            {
+                foreach (string str in Utils.recentContact)
+                {
+                    txtNguoiNhan.Items.Add(str);
+                }
+            }
+            catch { }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -26,9 +44,11 @@ namespace Client_Form
             {
                 for (int i = 0; i < table_attachment.Rows.Count; i++)
                 {
-                    HAttachment attachment = new HAttachment();
-                    attachment.fileName = table_attachment.Rows[i].Cells[0].Value.ToString();
-                    attachment.data = File.ReadAllBytes(table_attachment.Rows[i].Cells[1].Value.ToString());
+                    HAttachment attachment = new()
+                    {
+                        fileName = (string)table_attachment.Rows[i].Cells[0].Value,
+                        data = File.ReadAllBytes((string)table_attachment.Rows[i].Cells[1].Value)
+                    };
 
                     attachments.Add(attachment);
                 }
@@ -44,13 +64,15 @@ namespace Client_Form
             {
                 Thread STAThread = new(delegate ()
                 {
-                    OpenFileDialog openFileDialog = new();
-                    openFileDialog.Filter = "All files(*.*)|*.*|All files(*.*)|*.*";
-                    openFileDialog.Title = "Browse Image";
-                    openFileDialog.InitialDirectory = "C:\\Users\\%username%\\";
-                    //openFileDialog.FilterIndex = 100;
-                    //openFileDialog.RestoreDirectory = true;
-                    openFileDialog.Multiselect = true;
+                    OpenFileDialog openFileDialog = new()
+                    {
+                        Filter = "All files(*.*)|*.*|All files(*.*)|*.*",
+                        Title = "Browse Image",
+                        InitialDirectory = "C:\\Users\\%username%\\",
+                        //openFileDialog.FilterIndex = 100;
+                        //openFileDialog.RestoreDirectory = true;
+                        Multiselect = true
+                    };
 
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {

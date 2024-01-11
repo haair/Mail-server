@@ -108,6 +108,7 @@ namespace Server_Form
                                 email.mailboxID = rs;
                                 AddEmail(email);
                                 HMessage message4 = new() { id = 4, };
+                                message4.WriteString(email.recipient.emailAddress);
                                 SendMessage(message4, writer);
                                 form?.AddMessage("add ok");
                                 break;

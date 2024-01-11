@@ -12,6 +12,7 @@ namespace Client_Form
             SetHello();
             HClient.Connect();
             HClient.SendRequestMailbox();
+            Utils.LoadListRecentContact();
         }
         private void label1_Click(object sender, EventArgs e)
         {
@@ -41,13 +42,26 @@ namespace Client_Form
                     {
                         tbl_hop_thu_den.Rows.Add(m.messageID, m.sender.fullName, m.subject, Utils.GetTimeAgo(m.timestamp), m.status);
                     }
+                    int n_chua_doc = 0;
                     foreach (DataGridViewRow row in tbl_hop_thu_den.Rows)
                     {
                         if ((int)row.Cells[4].Value == 0)
                         {
                             row.DefaultCellStyle.Font = new Font(Font, FontStyle.Bold);
+                            n_chua_doc++;
                         }
                     }
+                    tabPage1.Invoke(new MethodInvoker(delegate
+                    {
+                        if (n_chua_doc == 0)
+                        {
+                            tabPage1.Text = $"Hộp thư đến";
+                        }
+                        else
+                        {
+                            tabPage1.Text = $"Hộp thư đến ({n_chua_doc})";
+                        }
+                    }));
                 }
                 ));
 
@@ -85,7 +99,7 @@ namespace Client_Form
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //HClient.Disconnect();
+
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -155,7 +169,7 @@ namespace Client_Form
             if (remove)
             {
                 hMessage.id = 6;
-                DialogResult dialogResult = MessageBox.Show("Bạn có muốn xóa thư này không?", "Xóa", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Bạn có muốn xóa vĩnh viễn thư này không?", "Xóa", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     HClient.SendMessage(hMessage);
@@ -214,15 +228,18 @@ namespace Client_Form
             if (tabControl1.SelectedIndex == 2)
             {
                 btn_restore.Enabled = true;
+                button3.BackgroundImage = Properties.Resources.bin_red;
             }
             else if (tabControl1.SelectedIndex == 0)
             {
                 button5.Enabled = true;
+                button3.BackgroundImage = Properties.Resources.bin_black;
             }
             else
             {
                 btn_restore.Enabled = false;
                 button5.Enabled = false;
+                button3.BackgroundImage = Properties.Resources.bin_black;
             }
         }
 
@@ -267,6 +284,67 @@ namespace Client_Form
                 message.WriteInt(status);
                 HClient.SendMessage(message);
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string keyword = textBox1.Text;
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:
+                    tbl_hop_thu_den.Invoke(new MethodInvoker(delegate
+                    {
+                        ClearTalbe(tbl_hop_thu_den);
+                        foreach (HEmail m in Utils.mailNhan)
+                        {
+                            if (m.subject.ToLower().Contains(keyword))
+                            {
+                                tbl_hop_thu_den.Rows.Add(m.messageID, m.sender.fullName, m.subject, Utils.GetTimeAgo(m.timestamp), m.status);
+                            }
+                        }
+                        foreach (DataGridViewRow row in tbl_hop_thu_den.Rows)
+                        {
+                            if ((int)row.Cells[4].Value == 0)
+                            {
+                                row.DefaultCellStyle.Font = new Font(Font, FontStyle.Bold);
+                            }
+                        }
+                    }
+                    ));
+                    break;
+                case 1:
+                    tbl_thu_da_gui.Invoke(new MethodInvoker(delegate
+                    {
+                        tbl_thu_da_gui.Rows.Clear();
+                        foreach (HEmail m in Utils.mailGui)
+                        {
+                            if (m.subject.ToLower().Contains(keyword))
+                            {
+                                tbl_thu_da_gui.Rows.Add(m.messageID, m.recipient.fullName, m.subject, Utils.GetTimeAgo(m.timestamp));
+                            }
+                        }
+                    }
+                    ));
+                    break;
+                case 2:
+                    tbl_thung_rac.Invoke(new MethodInvoker(delegate
+                    {
+                        tbl_thung_rac.Rows.Clear();
+                        foreach (HEmail m in Utils.mailBin)
+                        {
+                            if (m.subject.ToLower().Contains(keyword))
+                            {
+                                tbl_thung_rac.Rows.Add(m.messageID, m.sender.fullName == Utils.info.fullName ? "Tôi" : m.sender.fullName, m.recipient.fullName == Utils.info.fullName ? "Tôi" : m.recipient.fullName, m.subject, Utils.GetTimeAgo(m.timestamp));
+                            }
+                        }
+                    }
+                    ));
+                    break;
+            }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
         }
     }
 }
