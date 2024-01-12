@@ -186,7 +186,7 @@ namespace Server_Form
 
                 SqlCommand sqlCommand;
 
-                string sqlstr1 = $"INSERT INTO MailUser (username, password, fullName, emailAddress) VALUES ('{username}', '{password}', '{fullName}', '{emailAddress}') SELECT SCOPE_IDENTITY()";
+                string sqlstr1 = $"INSERT INTO MailUser (username, password, fullName, emailAddress) VALUES ('{username}', '{password}', N'{fullName}', '{emailAddress}') SELECT SCOPE_IDENTITY()";
 
                 sqlCommand = new SqlCommand(sqlstr1, cnn);
                 var rs = sqlCommand.ExecuteReader();
