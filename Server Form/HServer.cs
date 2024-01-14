@@ -336,7 +336,7 @@ namespace Server_Form
                 SqlDataReader reader;
                 int new_id = -1;
 
-                string sqlstr1 = $"INSERT INTO MailMessage (mailboxID, sender, recipient, subject, body, timestamp, status) VALUES ({hEmail.mailboxID}, '{hEmail.sender.emailAddress}', '{hEmail.recipient.emailAddress}', '{hEmail.subject}', '{hEmail.body}', {hEmail.timestamp}, 0) SELECT SCOPE_IDENTITY()";
+                string sqlstr1 = $"INSERT INTO MailMessage (mailboxID, sender, recipient, subject, body, timestamp, status) VALUES ({hEmail.mailboxID}, '{hEmail.sender.emailAddress}', '{hEmail.recipient.emailAddress}', N'{hEmail.subject}', N'{hEmail.body}', {hEmail.timestamp}, 0) SELECT SCOPE_IDENTITY()";
 
                 sqlCommand = new SqlCommand(sqlstr1, cnn);
                 reader = sqlCommand.ExecuteReader();

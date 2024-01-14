@@ -58,10 +58,10 @@
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
-            tabControl1.Margin = new Padding(2);
+            tabControl1.Margin = new Padding(2, 3, 2, 3);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(560, 270);
+            tabControl1.Size = new Size(640, 360);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -71,21 +71,21 @@
             tabPage1.Controls.Add(txt_tk_login);
             tabPage1.Controls.Add(label2);
             tabPage1.Controls.Add(label1);
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Margin = new Padding(2);
+            tabPage1.Location = new Point(4, 29);
+            tabPage1.Margin = new Padding(2, 3, 2, 3);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(2);
-            tabPage1.Size = new Size(552, 242);
+            tabPage1.Padding = new Padding(2, 3, 2, 3);
+            tabPage1.Size = new Size(632, 327);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Đăng nhập";
             tabPage1.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
-            button1.Location = new Point(202, 134);
-            button1.Margin = new Padding(2);
+            button1.Location = new Point(231, 179);
+            button1.Margin = new Padding(2, 3, 2, 3);
             button1.Name = "button1";
-            button1.Size = new Size(118, 28);
+            button1.Size = new Size(135, 37);
             button1.TabIndex = 8;
             button1.Text = "Đăng nhập";
             button1.UseVisualStyleBackColor = true;
@@ -93,39 +93,39 @@
             // 
             // txt_mk_login
             // 
-            txt_mk_login.Location = new Point(174, 94);
-            txt_mk_login.Margin = new Padding(2);
+            txt_mk_login.Location = new Point(199, 125);
+            txt_mk_login.Margin = new Padding(2, 3, 2, 3);
             txt_mk_login.Name = "txt_mk_login";
             txt_mk_login.PasswordChar = '●';
-            txt_mk_login.Size = new Size(219, 23);
+            txt_mk_login.Size = new Size(250, 27);
             txt_mk_login.TabIndex = 7;
             txt_mk_login.KeyDown += txt_mk_login_KeyDown;
             // 
             // txt_tk_login
             // 
-            txt_tk_login.Location = new Point(174, 58);
-            txt_tk_login.Margin = new Padding(2);
+            txt_tk_login.Location = new Point(199, 77);
+            txt_tk_login.Margin = new Padding(2, 3, 2, 3);
             txt_tk_login.Name = "txt_tk_login";
-            txt_tk_login.Size = new Size(219, 23);
+            txt_tk_login.Size = new Size(250, 27);
             txt_tk_login.TabIndex = 6;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(107, 97);
+            label2.Location = new Point(122, 129);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(60, 15);
+            label2.Size = new Size(73, 20);
             label2.TabIndex = 4;
             label2.Text = "Mật khẩu:";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(73, 61);
+            label1.Location = new Point(83, 81);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(94, 15);
+            label1.Size = new Size(117, 20);
             label1.TabIndex = 5;
             label1.Text = "Tài khoản/Email:";
             label1.Click += label1_Click;
@@ -143,21 +143,21 @@
             tabPage2.Controls.Add(label5);
             tabPage2.Controls.Add(label4);
             tabPage2.Controls.Add(label3);
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Margin = new Padding(2);
+            tabPage2.Location = new Point(4, 29);
+            tabPage2.Margin = new Padding(2, 3, 2, 3);
             tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(2);
-            tabPage2.Size = new Size(552, 242);
+            tabPage2.Padding = new Padding(2, 3, 2, 3);
+            tabPage2.Size = new Size(632, 327);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Đăng ký";
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            button2.Location = new Point(244, 181);
-            button2.Margin = new Padding(2);
+            button2.Location = new Point(279, 241);
+            button2.Margin = new Padding(2, 3, 2, 3);
             button2.Name = "button2";
-            button2.Size = new Size(147, 39);
+            button2.Size = new Size(168, 52);
             button2.TabIndex = 2;
             button2.Text = "Đăng ký";
             button2.UseVisualStyleBackColor = true;
@@ -165,103 +165,104 @@
             // 
             // txt_name_sign
             // 
-            txt_name_sign.Location = new Point(203, 127);
-            txt_name_sign.Margin = new Padding(2);
+            txt_name_sign.Location = new Point(232, 169);
+            txt_name_sign.Margin = new Padding(2, 3, 2, 3);
             txt_name_sign.Name = "txt_name_sign";
-            txt_name_sign.Size = new Size(221, 23);
+            txt_name_sign.Size = new Size(252, 27);
             txt_name_sign.TabIndex = 1;
             // 
             // txt_email_sign
             // 
-            txt_email_sign.Location = new Point(203, 154);
-            txt_email_sign.Margin = new Padding(2);
+            txt_email_sign.Location = new Point(232, 205);
+            txt_email_sign.Margin = new Padding(2, 3, 2, 3);
             txt_email_sign.Name = "txt_email_sign";
-            txt_email_sign.Size = new Size(221, 23);
+            txt_email_sign.Size = new Size(252, 27);
             txt_email_sign.TabIndex = 1;
             // 
             // txt_mk2_sign
             // 
-            txt_mk2_sign.Location = new Point(203, 100);
-            txt_mk2_sign.Margin = new Padding(2);
+            txt_mk2_sign.Location = new Point(232, 133);
+            txt_mk2_sign.Margin = new Padding(2, 3, 2, 3);
             txt_mk2_sign.Name = "txt_mk2_sign";
             txt_mk2_sign.PasswordChar = '●';
-            txt_mk2_sign.Size = new Size(221, 23);
+            txt_mk2_sign.Size = new Size(252, 27);
             txt_mk2_sign.TabIndex = 1;
             // 
             // txt_mk_sign
             // 
-            txt_mk_sign.Location = new Point(203, 73);
-            txt_mk_sign.Margin = new Padding(2);
+            txt_mk_sign.Location = new Point(232, 97);
+            txt_mk_sign.Margin = new Padding(2, 3, 2, 3);
             txt_mk_sign.Name = "txt_mk_sign";
             txt_mk_sign.PasswordChar = '●';
-            txt_mk_sign.Size = new Size(221, 23);
+            txt_mk_sign.Size = new Size(252, 27);
             txt_mk_sign.TabIndex = 1;
             // 
             // txt_tk_sign
             // 
-            txt_tk_sign.Location = new Point(203, 48);
-            txt_tk_sign.Margin = new Padding(2);
+            txt_tk_sign.Location = new Point(232, 64);
+            txt_tk_sign.Margin = new Padding(2, 3, 2, 3);
             txt_tk_sign.Name = "txt_tk_sign";
-            txt_tk_sign.Size = new Size(221, 23);
+            txt_tk_sign.Size = new Size(252, 27);
             txt_tk_sign.TabIndex = 1;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(126, 130);
+            label7.Location = new Point(144, 173);
             label7.Margin = new Padding(2, 0, 2, 0);
             label7.Name = "label7";
-            label7.Size = new Size(58, 15);
+            label7.Size = new Size(73, 20);
             label7.TabIndex = 0;
             label7.Text = "Họ và tên";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(148, 157);
+            label6.Location = new Point(169, 209);
             label6.Margin = new Padding(2, 0, 2, 0);
             label6.Name = "label6";
-            label6.Size = new Size(36, 15);
+            label6.Size = new Size(46, 20);
             label6.TabIndex = 0;
             label6.Text = "Email";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(82, 103);
+            label5.Location = new Point(94, 137);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
-            label5.Size = new Size(104, 15);
+            label5.Size = new Size(130, 20);
             label5.TabIndex = 0;
             label5.Text = "Nhập lại mật khẩu";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(129, 76);
+            label4.Location = new Point(147, 101);
             label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
-            label4.Size = new Size(57, 15);
+            label4.Size = new Size(70, 20);
             label4.TabIndex = 0;
             label4.Text = "Mật khẩu";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(127, 51);
+            label3.Location = new Point(145, 68);
             label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
-            label3.Size = new Size(57, 15);
+            label3.Size = new Size(71, 20);
             label3.TabIndex = 0;
             label3.Text = "Tài khoản";
             // 
             // LoginForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(560, 270);
+            ClientSize = new Size(640, 360);
             Controls.Add(tabControl1);
-            Margin = new Padding(2);
+            Margin = new Padding(2, 3, 2, 3);
+            MaximizeBox = false;
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Welcome";

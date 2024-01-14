@@ -172,6 +172,7 @@
             Controls.Add(txtSender);
             Controls.Add(txtSubject);
             Controls.Add(txtContent);
+            MaximizeBox = false;
             Name = "ViewEmailForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Email";

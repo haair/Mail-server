@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             label1 = new Label();
-            txtNguoiNhan1 = new TextBox();
             label2 = new Label();
             txtTieuDe = new TextBox();
             label3 = new Label();
@@ -56,15 +55,6 @@
             label1.Size = new Size(110, 23);
             label1.TabIndex = 0;
             label1.Text = "Người nhận:";
-            // 
-            // txtNguoiNhan1
-            // 
-            txtNguoiNhan1.Location = new Point(807, 385);
-            txtNguoiNhan1.Margin = new Padding(3, 12, 21, 3);
-            txtNguoiNhan1.Multiline = true;
-            txtNguoiNhan1.Name = "txtNguoiNhan1";
-            txtNguoiNhan1.Size = new Size(584, 40);
-            txtNguoiNhan1.TabIndex = 1;
             // 
             // label2
             // 
@@ -118,7 +108,7 @@
             // button2
             // 
             button2.Location = new Point(736, 78);
-            button2.Margin = new Padding(3, 0, 11, 3);
+            button2.Margin = new Padding(3, 0, 20, 3);
             button2.Name = "button2";
             button2.Size = new Size(122, 40);
             button2.TabIndex = 4;
@@ -136,14 +126,14 @@
             table_attachment.Margin = new Padding(3, 3, 3, 12);
             table_attachment.Name = "table_attachment";
             table_attachment.ReadOnly = true;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            table_attachment.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            table_attachment.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             table_attachment.RowHeadersVisible = false;
             table_attachment.RowHeadersWidth = 50;
             table_attachment.RowTemplate.Height = 29;
@@ -202,7 +192,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            ClientSize = new Size(1078, 798);
+            ClientSize = new Size(1100, 798);
             Controls.Add(txtNguoiNhan);
             Controls.Add(lb_tep_dinh_kem);
             Controls.Add(table_attachment);
@@ -212,8 +202,8 @@
             Controls.Add(label3);
             Controls.Add(txtTieuDe);
             Controls.Add(label2);
-            Controls.Add(txtNguoiNhan1);
             Controls.Add(label1);
+            MaximizeBox = false;
             Name = "SendEmailForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Thư mới";
@@ -225,7 +215,6 @@
         #endregion
 
         private Label label1;
-        private TextBox txtNguoiNhan1;
         private Label label2;
         private TextBox txtTieuDe;
         private Label label3;

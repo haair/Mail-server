@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Server Form")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ae34eaaf71985394f26e742beba8e5d9fa17fa89")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f8076c1d52d8b249f71afcffe3b7a2cd9d7fdb3c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Server Form")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Server Form")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

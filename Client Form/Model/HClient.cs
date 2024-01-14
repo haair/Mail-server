@@ -116,6 +116,7 @@ namespace Client_Form.Model
                             MessageBox.Show("Gửi email thành công");
                             Utils.AddListRecentContact(sms.ReadString());
                             Utils.SaveListRecentContact();
+                            SendRequestMailbox();
                             break;
                         case -4:
                             MessageBox.Show("Địa chỉ email không chính xác");
